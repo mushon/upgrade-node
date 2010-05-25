@@ -1,9 +1,9 @@
 /**********************************
 Upgrade International Theme
-* Filename:			upgrade.css   
+* Filename:		upgrade.css   
 * Current colors:
 * Light-tone:		#d4fca9
-* Mid-tone:			#A5FCA9
+* Mid-tone:		#A5FCA9
 * Text-(dark)-tone:	#69ab6c
 **********************************/
 
@@ -16,22 +16,25 @@ body {
 	text-align: center;
 }
 
-a,
-a:hover,
-.meta a:hover,
-.edit-link a:hover  {
-color: #69ab6c;
+a, a:hover, .meta a:hover, .edit-link a:hover  {
+	color: #69ab6c;
 }
-
-a {}
 
 a:hover{
 	background-color: #fff;
 	text-decoration: underline;
 }
 
-div#wrapper{
+#wrapper{
 	text-align: left;
+	margin: 0 auto;
+	width: 950px;
+}
+
+#main {
+    overflow: visible;
+    width: 940px;
+    padding: 0;
 }
 
 /*-----------------------------
@@ -39,7 +42,7 @@ Header Background
 -----------------------------*/
 
 
-div#map {
+#map {
 	height: 330px;
 	width: 100%;
 	position: absolute;
@@ -49,15 +52,11 @@ div#map {
 }
 
 h1{
-	margin:303px auto 0;
-	position: absolute;
 	text-align: left;
-	width: 950px;
-	z-index: 10;
+	margin: 0;
 }
 
 h1 a{
-	position: absolute;
 	color: #000;
 	text-decoration: none;
 }
@@ -81,23 +80,16 @@ h1 a span {
 	padding-top:5px;
 }
 
-/*
-span.log-in-out a{
-	width:14px;
-	height:14px;
-	background-image: url(images/logout.png);
-	background-repeat: no-repeat;
-	background-position: 0 0;
-	margin:10px 0 0 -20px;
-	display: block;
-	text-indent: -3000px;
-	float: left;
+.page-title {
+	font-size:18px;
+	line-height:18px;
+	padding: 0;
+	padding-left: 40px;
+	background:#CCCCCC;
+	color:#555555;
+	font-style: normal;
+	max-width: 430px;
 }
-
-span.log-in-out a:hover{
-	background-position: -14px 0;
-}
-*/
 
 div#gmap{
 	height: 330px;
@@ -118,31 +110,53 @@ div#stripe{
 /*-----------------------------
 Right Column
 -----------------------------*/
+/*
 div#right-col{
 	float: right;
 	width: 560px;
 	position: relative;
 }
+*/
 
 /*-----------------------------
 Header
 -----------------------------*/
 
-div#header{
+#access {
+	display: none;
+}
+
+#branding {
+	width: 950px;
+	margin-top: 280px;
+	padding: 0;
+}
+
+#blog-title a {
+	color:#000000;
+	font-size: 25px;
+	text-decoration:none;
+}
+
+#header{
 	height: 27px;
 }
 
+/*
 div#feed{
 	float: right;
 	margin: 10px 0 0 10px;
 }
-
-div#search{
+*/
+ 
+#searchform {
 	float: right;
-	margin: 14px 0 0 0;
+	margin-top: -310px;
+	margin-right: 50px;
 }
 
-div#search form input#s{
+
+#searchform input#s{
 	width: 177px;
 	height: 15px;
 	padding: 3px 3px 3px 10px;
@@ -152,23 +166,22 @@ div#search form input#s{
 	float: left;
 }
 
-div#search form input.button{
+#searchsubmit{
 	width: 24px;
 	height: 21px;
 	background: url(images/search_btn.png);
 	border: none;
 	margin: 0;
 	float: left;
+	text-indent: -3000px;
 }
 
-div#search form input.button:hover{
+#searchsubmit hover{
+	background: url(images/search_btn.png);
 	background-position: -24px 0;
 }
 
-div#search h3{
-	display: none;
-}
-
+/*
 div#right-col h2.page-title{
 	padding-left: 40px;
 	font-size: 20px;
@@ -186,27 +199,39 @@ div#right-col h2.page-title span{
 div#right-col h2.page-title a{
 	color:rgba(0, 0, 0, 0.8);
 }
+*/
 
 /*-----------------------------
 Post
 -----------------------------*/
 
-div#container{
-	background: url(images/container-bg.png) no-repeat;
-	margin: 0 0 0 50px;
+#content {
+    margin: 0;
+    overflow: visible;
+    width:510px;
+
 }
 
-div#nav-above{
+#container {
+    margin: 0;
+    margin-top: -280px;
+    width: auto;
+    margin-right: -5px;
+    background: url(images/container-bg.png) no-repeat;
+    min-height: 700px;s
+}
+
+#nav-above{
 	display: none;
 }
 
-div#container div.post-content{
+#container div.post-content{
 	padding: 10px 0;
 	border-bottom: 2px dotted #bebebe;
 	min-height:257px;
 }
 
-div#container div.post span.cat-links a{
+#container div.post span.cat-links a{
 	padding: 1px 3px 1px 40px;
 	background: #bebebe;
 	text-transform: uppercase;
@@ -216,11 +241,11 @@ div#container div.post span.cat-links a{
 	text-decoration: none;
 }
 
-div#container div.post span.edit-link a{
+#container div.post span.edit-link a{
 	padding: 0 3px;
 }
 
-div#container div.post span.event-time{
+#container div.post span.event-time{
 	padding: 1px 5px 2px 40px;
 	background: #A5FCA9;
 	color:rgba(0, 0, 0, 0.5);
@@ -229,7 +254,7 @@ div#container div.post span.event-time{
 	
 }
 
-div#container div.post span.event-loc{
+#container div.post span.event-loc{
 	padding: 1px 5px 1px 40px;
 	background: #d4fca9;
 	color:rgba(0, 0, 0, 0.5);
@@ -237,14 +262,14 @@ div#container div.post span.event-loc{
 	font-size: 12px;
 }
 
-div#container div.post div.tag-links{
+#container div.post div.tag-links{
 	padding-left: 40px;
 	background: url(images/tag_title_bg.png) repeat-y  -110px -3px;
 	float: left;
 	margin: 10px 40px 0 0;
 }
 
-div#container div.post span.tag-container{
+#container div.post span.tag-container{
 	padding: 3px 7px 2px 5px;
 	background: #fff url(images/tag_bg.png) repeat-x right bottom;
 	color: #909090;
@@ -253,7 +278,7 @@ div#container div.post span.tag-container{
 	margin-bottom: 3px;
 }
 
-div#container div.post span.tag-container a.global-tag{
+#container div.post span.tag-container a.global-tag{
 	height: 14px;
 	width: 14px;
 	background: url(images/global_tag.png) no-repeat;
@@ -262,23 +287,22 @@ div#container div.post span.tag-container a.global-tag{
 	margin-right: 5px;
 }
 
-div#container div.post span.tag-container a.global-tag:hover{
+#container div.post span.tag-container a.global-tag:hover{
 	background-image: url(images/global_tag-hover.png);
 }
 
-div#container div.post span.tag-container a{
+#container div.post span.tag-container a{
 	float: left;
 	color: #909090;
 	text-decoration: none;
 	line-height:14px;
 }
 
-div#container div.post span.tag-container a:hover{
+#container div.post span.tag-container a:hover{
 	color: #666;
 }
 
-div#container h2 a,
-div#container h2  {
+#container h2 a, div#container h2  {
 	font-weight: bold;
 	color: #000;
 	text-decoration: none;
@@ -286,19 +310,19 @@ div#container h2  {
 	margin: 0;
 }
 
-div#container div.heading {
+#container div.heading {
 	margin: 3px 40px 5px;
 }
 
-div#container div.entry-content{
+#container div.entry-content{
 	clear: both;
 	padding:10px 40px 0;
 }
 
-div#container div.entry-content a.more-link{
+#container div.entry-content a.more-link{
 	display: block;
 	float: right;
-	margin: 10px -40px 0 0;
+	margin: 30px -177px 0 0;
 	background:#A5FCA9 none repeat scroll 0 0;
 	font-size:10px;
 	font-weight:bold;
@@ -307,7 +331,7 @@ div#container div.entry-content a.more-link{
 	padding: 0px 40px 0px 3px;
 }
 
-div#container div.entry-content a.more-link:hover{
+#container div.entry-content a.more-link:hover{
 	background-color: #69AB6C;
 	color:#FFFFFF;
 }
@@ -481,127 +505,25 @@ div.comment-body{
 	clear: both;
 }
 
-/*-----------------------------
-Sidebars
------------------------------*/
-
-div.sidebars{
-	/* display: none; */
-	padding: 1em 0 0;
-	float:right;
-	margin:330px 0 0;
-	width:390px;
+/**** Calendar *****/
+.aside td,
+.aside th {
+	padding: 2px;
 }
 
-div.sidebar ul li.widget {
-	margin:0 5px 1em;
-	clear:both;
-}
-
-div.sidebars a{
-	text-decoration: none;
-}
-
-div.sidebar{
-	float: right;
-	width: 190px;
-	margin: 0;
-}
-
-div#primary{
-	margin: 0 0 0 10px;
-}
-
-li#upgrade-international{
-	margin: 0 8px 10px;
-	font-size: 1.1em;
-}
-
-li#upgrade-international a{
-	text-align: center;
-	display: block;
-}
-
-li#organized{
-	margin: 0 8px;
-}
-
-li#organized li{
-	text-align: center;
-}
-
-li.page_item{
-	margin-bottom: 2px;
-}
-
-li.page_item a{
-	background: #bdbebf;
-	padding: 2px 8px;
-	color: #fff;
-	font-weight: bold;
-}
-
-li.page_item a:hover{
-	background: #959595;
-}
-
-div.sidebar ul li#pages ul {
-	margin:0 ;
-}
-
-div.sidebar ul li#pages ul ul {
-	margin:0 0 0 0.5em;
-}
-
-div.sidebars li.page_item, li.page_item ul li{
-	margin: 3px 0 0;
-	list-style-type:none;
-}
-
-li.page_item li a{
-	background: #f3f3f3;
-	padding: 2px 4px;
-	color: #959595;
-	font-weight: normal;
-}
-
-li#pages li.page_item ul{
-	margin-left: 16px;
-}
-
-li.page_item li a:hover{
-	color: #666;
-	background: #f3f3f3;
-}
-
-div.sidebars h3{
-	font-size: 1.2em;
-	padding: 5px;
-	background: #f3f3f3;
-	color: #666;
-	margin: 0 -5px 1em;
-}
-
-/**** Upcoming Events *****/
-
-ul.ec3_events li.ec3_list{
-	padding: 0 10px;
-	color: inherit;
-}
-
-ul.ec3_events li.ec3_list ul{
-	margin: 0;
-}
-
-ul.ec3_events li.ec3_list ul li{
+.aside ul li {
 	list-style: none;
 }
 
-/**** Calendar *****/
+.main-aside ul {
+	padding: 0;
+}
+
 div#wp-calendar{
 	font-size: 0.9em;
 	line-height: 1.8em;
 	/* padding: 0 10px; */
+	width: 180px;
 }
 
 div#wp-calendar table{
@@ -683,10 +605,11 @@ div#wp-calendar table.nav #prev{
 	margin: 0 5px;
 }
 
-div.sidebar .widget_netfeed li{
+#secondary .widget_netfeed li,
+#primary .widget_netfeed li{
 	border-bottom: 2px dotted #BEBEBE !important;
 	padding-bottom: 0.5em;
-	margin: 0 -5px 0.5em;
+	margin: 0 0 0.5em;
 }
 
 .widget_netfeed li a{
@@ -711,6 +634,26 @@ div.sidebar .widget_netfeed li{
 
 div.sidebar li.widget_netfeed ul{
 	margin: 0;
+}
+
+/**** Upcoming Events *****/
+
+ul.ec3_events li.ec3_list{
+	padding: 0 10px;
+	color: inherit;
+}
+
+ul.ec3_events li.ec3_list ul{
+	margin: 0;
+}
+
+ul.ec3_events li.ec3_list ul li{
+	list-style: none;
+}
+
+#upgrade-network-feed ul {
+	width: 190px;
+	margin-left: -4px;
 }
 
 /*For RTL Languages:*/
@@ -814,14 +757,115 @@ Other
 Footer
 -----------------------------*/
 
-#footer{
-	width: 950px;
-	clear: both;
-	margin: 20px auto;
+#siteinfo{
+	width: 470px;
+	text-align: center;
+	margin-left: 440px;
 }
 
+#footer {
+	border: none;
+}
+
+/*
 #footer div.footer-wrap{
-	margin-left: 390px;
+	margin-left: 590px;
 	font-size:0.9em;
 }
+*/
 
+/*-----------------------------
+Sidebars
+-----------------------------*/
+
+#primary {
+	float: right;
+	margin-right: 45px;
+	width: 190px;
+	border: none;
+}
+
+#secondary {
+	width: 190px;
+	float: right;
+	margin-right: 10px;
+}
+
+.aside h3{
+	-moz-background-clip:border;
+	-moz-background-inline-policy:continuous;
+	-moz-background-origin:padding;
+	background:#F3F3F3 none repeat scroll 0 0;
+	color:#666666;
+	font-size:1.1em;
+	margin:5px -5px 1em;
+	padding: 1px 5px;
+	width: 180px;
+	font-style: normal;
+}
+
+li#upgrade-international{
+	margin: 0 8px 10px;
+	font-size: 1.1em;
+}
+
+li#upgrade-international a{
+	text-align: center;
+	display: block;
+}
+
+li#organized{
+	margin: 0 8px;
+}
+
+li#organized li{
+	text-align: center;
+}
+
+
+li.page_item{
+	margin-bottom: 2px;
+}
+
+li.page_item a{
+	background: #bdbebf;
+	padding: 2px 8px;
+	color: #fff;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+li.page_item a:hover{
+	background: #959595;
+}
+
+li.page_item li a{
+	background: #f3f3f3;
+	padding: 2px 4px;
+	color: #959595;
+	font-weight: normal;
+}
+
+li#pages li.page_item ul{
+	margin-left: 16px;
+}
+
+li.page_item li a:hover{
+	color: #666;
+	background: #f3f3f3;
+}
+
+/*
+div.sidebar ul li#pages ul {
+	margin:0 ;
+}
+
+div.sidebar ul li#pages ul ul {
+	margin:0 0 0 0.5em;
+}
+
+div.sidebars li.page_item, li.page_item ul li{
+	margin: 3px 0 0;
+	list-style-type:none;
+}
+*/

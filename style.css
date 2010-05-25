@@ -1,26 +1,45 @@
-/*
-THEME NAME: UI09
-THEME URI: http://www.theupgrade.net
-DESCRIPTION: A customizable theme for the international Upgrade Network
-VERSION: 2009.05.26
-AUTHOR: <a href="http://www.Shual.com/">Mushon Zer-Aviv</a>, <a href="http://www.jeffcrouse.info/">Jeff Crouse</a>, <a href="http://www.no-org.net/">Matvey Shapiro</a> &amp; more Upgrade friends
-AUTHOR URI:
-TAGS: upgrade, art, customizable
+/*   
+Theme Name: Upgrade-node
+Theme URI: 
+Description: Use this theme to start your Thematic Child Theme development.
+Author: Ian Stewart
+Author URI: http://themeshaper.com/
+Template: thematic
+Version: 1.0
+Tags: Thematic
+.
+Thematic is © Ian Stewart http://themeshaper.com/
+.
 */
 
+/* Reset browser defaults */
+@import url('../thematic/library/styles/reset.css');
+
+/* Apply basic typography styles */
+@import url('../thematic/library/styles/typography.css');
+
+/* Apply a basic layout */
+@import url('../thematic/library/layouts/2c-l-fixed.css');
+
+/* Apply basic image styles */
+@import url('../thematic/library/styles/images.css');
+
+/* Apply default theme styles and colors */
+/* It's better to actually copy over default.css into this file (or link to a copy in your child theme) if you're going to do anything outrageous */
+@import url('../thematic/library/styles/default.css');
+
+/* Prepare theme for plugins */
+@import url('../thematic/library/styles/plugins.css');
+
 /* Two-column with sidebar on left from the /examples/ folder  */
-@import url('styles/grid.css');
-@import url('styles/upgrade.css');
+@import url('../upgrade_thematicchildtheme/styles/grid.css');
+@import url('../upgrade_thematicchildtheme/styles/upgradethematic.css');
 
 /* Just some example content */
 div.skip-link {
 position:absolute;
 right:1em;
 top:1em;
-}
-
-div#container {
-margin-top:2em;
 }
 
 form#commentform .form-label {
@@ -41,8 +60,8 @@ padding:0.2em;
 }
 
 div.comments ol li {
-	margin:0 0 0.5em;
-	clear: both;
+margin:0 0 0.5em;
+clear: both;
 }
 
 textarea#comment {
@@ -124,28 +143,6 @@ height:1.25em;
 div.navigation div.nav-next {
 float:right;
 text-align:right;
-}
-
-div.sidebar input#s {
-width:7em;
-}
-
-div.sidebar li {
-list-style:none;
-margin:0 0 1em;
-}
-
-div.sidebar li form {
-margin:0.2em 0 0;
-padding:0;
-}
-
-div.sidebar ul li ul {
-margin:0 0.5em;
-}
-
-div.sidebar ul ul ul li {
-list-style:circle;
 }
 
 div#menu ul li,div.gallery dl,div.navigation div.nav-previous {
