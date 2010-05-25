@@ -706,8 +706,7 @@ function geolocate()
 }
 
 
-function feed_insert_node_info()
-{
+function feed_insert_node_info() {
 	print "<upgrade:nodeName>".upgrades_node_name()."</upgrade:nodeName>\n";
 	print "<upgrade:nodeUrl>".bloginfo('home')."</upgrade:nodeUrl>\n";
 	print "<upgrade:nodeAddress>".upgrades_node_address()."</upgrade:nodeAddress>\n";
@@ -715,17 +714,14 @@ function feed_insert_node_info()
 	print "<upgrade:nodeColorDark>#".node_color_dark()."</upgrade:nodeColorDark>\n";
 	print "<upgrade:nodeColorText>#".node_color_text()."</upgrade:nodeColorText>\n";
 	print "<upgrade:nodeThemeVersion>".$THEME_VERSION."</upgrade:nodeThemeVersion>\n";
-	
 }
 
 
-function feed_insert_namespace()
-{
+function feed_insert_namespace() {
 	print "\n\txmlns:upgrade=\"http://upgrade.eyebeam.org/upgrade\"";
 }
 
-function upgrade_event_form()
-{
+function upgrade_event_form() {
 	global $post;
 	$loc = get_post_meta($post->ID, "event_loc", true);
 	if(empty($loc))
@@ -742,8 +738,7 @@ function upgrade_event_form()
 	print $edit_html;
 }
 
-function upgrade_save_post($post_id)
-{
+function upgrade_save_post($post_id) {
 	if (isset($_POST['event_loc']))
 	{
 		// Only delete post meta if isset (to avoid deletion in bulk/quick edit mode)
@@ -764,7 +759,7 @@ add_action('edit_form_advanced', 'upgrade_event_form');
 add_action('save_post', 'upgrade_save_post');
 
 
-// The netowrk feed is parsed below in widget_netfeed
+// The network feed is parsed below in widget_netfeed
 // This array will hold the RSS items that have georss info 
 // so that the Google Map can add them in the theme.
 $netFeed = array();
