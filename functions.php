@@ -222,18 +222,27 @@ add_action('thematic_archiveloop', 'the_archive_loop');
 /* Single Post Page Loop */
 
 // Filtering the single page thematic loop
+
+function thematic_no_post(){
+  return '';
+}
+
 function upgrade_singlepost_loop(){
     if ( is_single()) {
-       while ( have_posts() ) : the_post() ?>
-            <div id="container">
+	
+	//add_filter('thematic_post', 'thematic_no_post');
+	
+    ?>
+      <div id="container">
 	    <div id="content">
-
-			<div id="nav-above" class="navigation">
-				<div class="nav-previous"><?php previous_post_link( '%link', '<span class="meta-nav">&larr;</span> <span class="title-nav">%title</span>' ) ?></div>
-				<div class="nav-next"><?php next_post_link( '%link', '<span class="title-nav">%title</span> <span class="meta-nav">&rarr;</span>' ) ?></div>
-			</div>
-                            <div class="post">
-                                    <div class="post-content span-12">
+          <div id="nav-above" class="navigation">
+            <div class="nav-previous"><?php previous_post_link( '%link', '<span class="meta-nav">&larr;</span> <span class="title-nav">%title</span>' ) ?></div>
+            <div class="nav-next"><?php next_post_link( '%link', '<span class="title-nav">%title</span> <span class="meta-nav">&rarr;</span>' ) ?></div>
+		  </div>
+          
+	<?php while ( have_posts() ) : the_post() ?>
+            <div class="post">
+              <div class="post-content span-12">
 					<?php lang_links($post->ID)?>
 					<span class="cat-links"><?php printf( __( '%s', 'sandbox' ), get_the_category_list(' ') ) ?></span>
 					<?php edit_post_link( __( 'Edit', 'sandbox' ), "<span class='edit-link'>", "</span>" ) ?>
@@ -271,6 +280,7 @@ function upgrade_singlepost_loop(){
 
 				</div>
 			</div><!-- .post -->
+    <?php endwhile; // loop done, go back up ?>
 
 			<div id="nav-below" class="navigation">
 				<div class="nav-previous"><?php previous_post_link( '%link', '<span class="meta-nav">&larr;</span> <span class="title-nav">%title</span>' ) ?></div>
@@ -283,7 +293,6 @@ function upgrade_singlepost_loop(){
 		</div>
 	</div><!-- #container -->
     <?php
-    endwhile; // loop done, go back up 
     }
 }
 // And in the end activate the new loop.
