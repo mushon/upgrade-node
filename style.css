@@ -31,7 +31,7 @@ Thematic is © Ian Stewart http://themeshaper.com/
 /* Prepare theme for plugins */
 @import url('../thematic/library/styles/plugins.css');
 
-/* Two-column with sidebar on left from the /examples/ folder  */
+/* Two-column with sidebar on left from the /examples/ folder */ 
 @import url('../upgrade_node/styles/grid.css');
 @import url('../upgrade_node/styles/upgradethematic.css');
 
