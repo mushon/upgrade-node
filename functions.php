@@ -22,7 +22,7 @@
 //add_filter('wp_page_menu_args','childtheme_menu_args');
 
 
-
+// Clean up the Dashboard
 // Removing and adding thematic sidebars
 function childtheme_sidebars_init() {
 
@@ -74,7 +74,7 @@ function lang_dir() {
 }
 
 // Creates the links for the translations of the post. use either 'text', 'image', 'both' or 'dropdown':
-function lang_links($id){
+function lang_links($id) {
 	if ( function_exists('qtrans_getLanguage') ) {
 		qtrans_generateLanguageSelectCode('text', $id);
 	}
@@ -101,212 +101,111 @@ function ec3_schedule(){
 }
 
 // Add search to header
-function add_search(){
+function add_search() {
 include (TEMPLATEPATH . '/searchform.php');
 }
 add_action('thematic_header','add_search');
 
 // Change search box text
 function childtheme_search_value() {
-return " ";
+  return " ";
 }
 add_filter('search_field_value', 'childtheme_search_value');
 
 
-/* Front Page Loop */
-// Get rid of thematic index loop on the main page
-function remove_index_loop() {
-    remove_action('thematic_indexloop', 'thematic_index_loop');
+// Filtering the thematic loop
+function upgrade_postheader() {
+  ?>
+  
+    <div class="post">
+        <div class="post-content span-12">
+			<?php lang_links($post->ID)?>
+			<span class="cat-links"><?php printf( __( '%s', 'sandbox' ), get_the_category_list(' ') ) ?></span>
+			<?php edit_post_link( __( 'Edit', 'sandbox' ), "<span class='edit-link'>", "</span>" ) ?>
+			<div class="heading"><h2 class="entry-title"><?php the_title() ?></h2></div>
+			<?php if (in_category_name('events')){?>						
+				<span class="event-time">
+					<!-- Using the Event Calendar plugin's template tag: -->
+					<?php ec3_schedule() ?>
+					<!-- Using the default event date:
+					<?php the_time('l, F jS, Y'); ?> at <?php the_time('G:i'); ?> -->
+				</span><br>
+				<span class="event-loc"><?php echo get_post_meta($post->ID, 'event_loc', true);?></span>
+			<?php } ?>
+			<?php the_tags( __( '<div class="tag-links"><span class="tag-container"><a href=  "#" class="global-tag" title="search tag on the global network"></a>', 'sandbox' ), '</span><span class="tag-container"><a href="#" class="global-tag" title="search tag on the global network"></a>', "</span></div>" ) ?>
+
+  <?php
 }
-add_action('init', 'remove_index_loop');
+add_filter(thematic_postheader, upgrade_postheader);
 
-// Filtering the thematic index loop
-function upgrade_index_loop(){
-       while ( have_posts() ) : the_post()  // Start the loop:
-    // This is just what we decide to show in each post ?>
-           <div class="post">
-                <div class="post-content span-12">
-		<?php lang_links($post->ID)?>
-		<span class="cat-links"><?php printf( __( '%s', 'sandbox' ), get_the_category_list(' ') ) ?></span>
-		<?php edit_post_link( __( 'Edit', 'sandbox' ), "<span class='edit-link'>", "</span>" ) ?>
-		<div class="heading"><h2 class="entry-title"><a href="<?php the_permalink() ?>" title="<?php printf( __('Permalink to %s', 'sandbox'), the_title_attribute('echo=0') ) ?>" rel="bookmark"><?php the_title() ?></a></h2></div>
-		<?php if (in_category_name('events')){?>						
-		<span class="event-time">
-		    <!-- Using the Event Calendar plugin's template tag:  -->
-		    <?php ec3_schedule() ?>
-		    <!-- Using the default event date:
-		    <?php the_time('l, F jS, Y'); ?> at <?php the_time('G:i'); ?> -->
-		</span><br>
-		<span class="event-loc"><?php echo get_post_meta($post->ID, 'event_loc', true);?></span>
-		    <?php } ?>
-		    <?php the_tags( __( '<div class="tag-links"><span class="tag-container"><a href="#" class="global-tag" title="search tag on the global network"></a>', 'sandbox' ), '</span><span class="tag-container"><a href="#" class="global-tag" title="search tag on the global network"></a>', "</span></div>" ) ?>
-			<div class="entry-content">
-			    <?php the_content( __( 'Read On <span class="meta-nav">&raquo;</span>', 'sandbox' ) ) ?>
-			    <?php wp_link_pages('before=<div class="page-link">' . __( 'Pages:', 'sandbox' ) . '&after=</div>') ?>
-			</div>
-			    </div>
-				<div class="entry-meta meta span-1 last">
-				    <a href="#" class="btn-up"></a>
-				    <a class="author-img" href="<?php echo get_author_link( false, $authordata->ID, $authordata->user_nicename )?>" title="View all posts by <?php echo $authordata->display_name ?>">
-					<?php echo get_avatar( get_the_author_email(), '40' ); ?>
-				    </a>
-				    <!--
-				    <span class="day"><?php the_time('j'); ?></span>
-				    <span class="month"><?php the_time('M'); ?></span>
-				    <span class="year"><?php the_time('Y'); ?></span>
-				    -->
-				    <span class="permalink"><a href="<?php the_permalink() ?>" title="<?php printf( __('Permalink to %s', 'sandbox'), the_title_attribute('echo=0') ) ?>" rel="bookmark"></a></span>
-				    <span class="comments-link"><?php comments_popup_link( __( '', 'sandbox' ), __( '1', 'sandbox' ), __( '%', 'sandbox' ) ) ?></span>
-				    <a href="#" class="btn-down"></a>
-	    </div>
-	</div><!-- .post -->
-    <?php
-    endwhile; // loop done, go back up 
+function close_divs () {
+  if (is_page()) {
+  ?>
+      </div>
+    </div>
+  <?php
+  }
 }
-// And in the end activate the new loop.
-add_filter('thematic_indexloop', 'upgrade_index_loop');
+add_action(thematic_abovemainasides, close_divs);
 
-
-/* Archive Page Loop */
-// Remove archive loop
-function remove_the_loop() {
-    remove_action('thematic_archiveloop', 'thematic_archive_loop');
-}
-add_action('init', 'remove_the_loop');
-
-function the_archive_loop() {
-       while ( have_posts() ) : the_post()  // Start the loop:
-    // This is just what we decide to show in each post ?>
-           <div class="post">
-                <div class="post-content span-12">
-		<?php lang_links($post->ID)?>
-		<span class="cat-links"><?php printf( __( '%s', 'sandbox' ), get_the_category_list(' ') ) ?></span>
-		<?php edit_post_link( __( 'Edit', 'sandbox' ), "<span class='edit-link'>", "</span>" ) ?>
-		<div class="heading"><h2 class="entry-title"><a href="<?php the_permalink() ?>" title="<?php printf( __('Permalink to %s', 'sandbox'), the_title_attribute('echo=0') ) ?>" rel="bookmark"><?php the_title() ?></a></h2></div>
-		<?php if (in_category_name('events')){?>						
-		<span class="event-time">
-		    <!-- Using the Event Calendar plugin's template tag:  -->
-		    <?php ec3_schedule() ?>
-		    <!-- Using the default event date:
-		    <?php the_time('l, F jS, Y'); ?> at <?php the_time('G:i'); ?> -->
-		</span><br>
-		<span class="event-loc"><?php echo get_post_meta($post->ID, 'event_loc', true);?></span>
-		    <?php } ?>
-		    <?php the_tags( __( '<div class="tag-links"><span class="tag-container"><a href="#" class="global-tag" title="search tag on the global network"></a>', 'sandbox' ), '</span><span class="tag-container"><a href="#" class="global-tag" title="search tag on the global network"></a>', "</span></div>" ) ?>
-			<div class="entry-content">
-			    <?php the_content( __( 'Read On <span class="meta-nav">&raquo;</span>', 'sandbox' ) ) ?>
-			    <?php wp_link_pages('before=<div class="page-link">' . __( 'Pages:', 'sandbox' ) . '&after=</div>') ?>
-			</div>
-			    </div>
-				<div class="entry-meta meta span-1 last">
-				    <a href="#" class="btn-up"></a>
-				    <a class="author-img" href="<?php echo get_author_link( false, $authordata->ID, $authordata->user_nicename )?>" title="View all posts by <?php echo $authordata->display_name ?>">
-					<?php echo get_avatar( get_the_author_email(), '40' ); ?>
-				    </a>
-				    <!--
-				    <span class="day"><?php the_time('j'); ?></span>
-				    <span class="month"><?php the_time('M'); ?></span>
-				    <span class="year"><?php the_time('Y'); ?></span>
-				    -->
-				    <span class="permalink"><a href="<?php the_permalink() ?>" title="<?php printf( __('Permalink to %s', 'sandbox'), the_title_attribute('echo=0') ) ?>" rel="bookmark"></a></span>
-				    <span class="comments-link"><?php comments_popup_link( __( '', 'sandbox' ), __( '1', 'sandbox' ), __( '%', 'sandbox' ) ) ?></span>
-				    <a href="#" class="btn-down"></a>
-	    </div>
-	</div><!-- .post -->
-    <?php
-    endwhile; // loop done, go back up 
-}
-add_action('thematic_archiveloop', 'the_archive_loop');
-
-
-/* Single Post Page Loop */
-
-// Filtering the single page thematic loop
-
-function thematic_no_post(){
-  return '';
-}
-
-function upgrade_singlepost_loop(){
-    if ( is_single()) {
-	
-	//add_filter('thematic_post', 'thematic_no_post');
-	
-    ?>
-      <div id="container">
-	    <div id="content">
-          <div id="nav-above" class="navigation">
-            <div class="nav-previous"><?php previous_post_link( '%link', '<span class="meta-nav">&larr;</span> <span class="title-nav">%title</span>' ) ?></div>
-            <div class="nav-next"><?php next_post_link( '%link', '<span class="title-nav">%title</span> <span class="meta-nav">&rarr;</span>' ) ?></div>
-		  </div>
-          
-	<?php while ( have_posts() ) : the_post() ?>
-            <div class="post">
-              <div class="post-content span-12">
-					<?php lang_links($post->ID)?>
-					<span class="cat-links"><?php printf( __( '%s', 'sandbox' ), get_the_category_list(' ') ) ?></span>
-					<?php edit_post_link( __( 'Edit', 'sandbox' ), "<span class='edit-link'>", "</span>" ) ?>
-					<div class="heading"><h2 class="entry-title"><?php the_title() ?></h2></div>
-					<?php if (in_category_name('events')){?>						
-						<span class="event-time">
-							<!-- Using the Event Calendar plugin's template tag: -->
-							<?php ec3_schedule() ?>
-							<!-- Using the default event date:
-							<?php the_time('l, F jS, Y'); ?> at <?php the_time('G:i'); ?> -->
-						</span><br>
-						<span class="event-loc"><?php echo get_post_meta($post->ID, 'event_loc', true);?></span>
-					<?php } ?>
-
-					<?php the_tags( __( '<div class="tag-links"><span class="tag-container"><a href="#" class="global-tag" title="search tag on the global network"></a>', 'sandbox' ), '</span><span class="tag-container"><a href="#" class="global-tag" title="search tag on the global network"></a>', "</span></div>" ) ?>
-					<div class="entry-content">
-						<?php the_content( __( 'Read On <span class="meta-nav">&raquo;</span>', 'sandbox' ) ) ?>
-						<?php wp_link_pages('before=<div class="page-link">' . __( 'Pages:', 'sandbox' ) . '&after=</div>') ?>
-					</div>
-				</div>
-								
-				<div class="entry-meta meta span-1 last">
-					<a href="#" class="btn-up"></a>
-					<a class="author-img" href="<?php echo get_author_link( false, $authordata->ID, $authordata->user_nicename )?>" title="View all posts by <?php echo $authordata->display_name ?>">
-						<?php echo get_avatar( get_the_author_email(), '20' ); ?>
-					</a>
-					<!--
-					<span class="day"><?php the_time('j'); ?></span>
-					<span class="month"><?php the_time('M'); ?></span>
-					<span class="year"><?php the_time('Y'); ?></span>
-					-->
-					<span class="permalink"><a href="<?php the_permalink() ?>" title="<?php printf( __('Permalink to %s', 'sandbox'), the_title_attribute('echo=0') ) ?>" rel="bookmark"></a></span>
-					<span class="comments-link"><a href="<?php comments_link?>"><?php comments_number('', '1', '%');?></a></span>
-					<a href="#" class="btn-down"></a>
-
-				</div>
-			</div><!-- .post -->
-    <?php endwhile; // loop done, go back up ?>
-
-			<div id="nav-below" class="navigation">
-				<div class="nav-previous"><?php previous_post_link( '%link', '<span class="meta-nav">&larr;</span> <span class="title-nav">%title</span>' ) ?></div>
-				<div class="nav-next"><?php next_post_link( '%link', '<span class="title-nav">%title</span> <span class="meta-nav">&rarr;</span>' ) ?></div>
-			</div>
-
-<?php comments_template() ?>
-
-		</div><!-- #content -->
+function upgrade_postfooter(){
+  ?>
+      	</div>
+		<div class="entry-meta meta span-1 last">
+			<a href="#" class="btn-up"></a>
+			<a class="author-img" href="<?php echo get_author_link( false, $authordata->ID, $authordata->user_nicename )?>" title="View all posts by <?php echo $authordata->display_name ?>">
+                <?php echo get_avatar( get_the_author_email(), '20' ); ?>
+			</a>
+			<!--
+			span class="day"><?php the_time('j'); ?></span>
+			<span class="month"><?php the_time('M'); ?></span>
+			<span class="year"><?php the_time('Y'); ?></span>
+			-->
+			<span class="permalink"><a href="<?php the_permalink() ?>" title="<?php printf( __('Permalink to %s', 'sandbox'), the_title_attribute('echo=0') ) ?>" rel="bookmark"></a></span>
+			<span class="comments-link"><a href="<?php comments_link?>"><?php comments_number('', '1', '%');?></a></span>
+			<a href="#" class="btn-down"></a>
 		</div>
-	</div><!-- #container -->
-    <?php
-    }
+	</div><!-- .post -->
+  <?php
 }
-// And in the end activate the new loop.
-add_action('thematic_abovecontainer', 'upgrade_singlepost_loop');
+add_filter(thematic_postfooter, upgrade_postfooter);
 
+/*
+// Filtering the thematic loop for Pages
+function upgrade_paged_postheader() {
+  if (is_paged()) {
+  ?>
+  
+    <div class="post">
+        <div class="post-content span-12">
+			<?php lang_links($post->ID)?>
+			<span class="cat-links"><?php printf( __( '%s', 'sandbox' ), get_the_category_list(' ') ) ?></span>
+			<?php edit_post_link( __( 'Edit', 'sandbox' ), "<span class='edit-link'>", "</span>" ) ?>
+			<div class="heading"><h2 class="entry-title"><?php the_title() ?></h2></div>
+			<?php if (in_category_name('events')){?>						
+				<span class="event-time">
+					<!-- Using the Event Calendar plugin's template tag: -->
+					<?php ec3_schedule() ?>
+					<!-- Using the default event date:
+					<?php the_time('l, F jS, Y'); ?> at <?php the_time('G:i'); ?> -->
+				</span><br>
+				<span class="event-loc"><?php echo get_post_meta($post->ID, 'event_loc', true);?></span>
+			<?php } ?>
+			<?php the_tags( __( '<div class="tag-links"><span class="tag-container"><a href=  "#" class="global-tag" title="search tag on the global network"></a>', 'sandbox' ), '</span><span class="tag-container"><a href="#" class="global-tag" title="search tag on the global network"></a>', "</span></div>" ) ?>
+      	</div>
+  <?php
+}
+}
+add_filter(thematic_postheader, upgrade_paged_postheader);
+*/
 
-/* Dashboard Node Settings */
+// Dashboard Node Settings
 // Additional, node admin page for the upgrades template
-
 add_action('admin_menu', 'upgrades_add_theme_page');
 
 function upgrades_add_theme_page() {
 	if ( $_GET['page'] == basename(__FILE__) ) {
-		
+
 		if ( 'save' == $_REQUEST['action'] ) {
 			if ( isset($_REQUEST['njform']) ) {
 			
@@ -679,7 +578,7 @@ function geolocate()
 {
 	if(!($a = urlencode(upgrades_node_address())))
 	{
-		return false;
+	  return false;
 	}
 	$wpgeo_options = get_option("wp_geo_options");
 	$key = $wpgeo_options['google_api_key'];
@@ -697,7 +596,7 @@ function geolocate()
 	}
 	else if(function_exists("file_get_contents"))
 	{
-		$response = file_get_contents($url);
+	  $response = file_get_contents($url);
 	}
 	if(strstr($response,"200"))
 	{  
@@ -716,45 +615,44 @@ function geolocate()
 
 
 function feed_insert_node_info() {
-	print "<upgrade:nodeName>".upgrades_node_name()."</upgrade:nodeName>\n";
-	print "<upgrade:nodeUrl>".bloginfo('home')."</upgrade:nodeUrl>\n";
-	print "<upgrade:nodeAddress>".upgrades_node_address()."</upgrade:nodeAddress>\n";
-	print "<upgrade:nodeColorLight>#".node_color_light()."</upgrade:nodeColorLight>\n";
-	print "<upgrade:nodeColorDark>#".node_color_dark()."</upgrade:nodeColorDark>\n";
-	print "<upgrade:nodeColorText>#".node_color_text()."</upgrade:nodeColorText>\n";
-	print "<upgrade:nodeThemeVersion>".$THEME_VERSION."</upgrade:nodeThemeVersion>\n";
+  print "<upgrade:nodeName>".upgrades_node_name()."</upgrade:nodeName>\n";
+  print "<upgrade:nodeUrl>".bloginfo('home')."</upgrade:nodeUrl>\n";
+  print "<upgrade:nodeAddress>".upgrades_node_address()."</upgrade:nodeAddress>\n";
+  print "<upgrade:nodeColorLight>#".node_color_light()."</upgrade:nodeColorLight>\n";
+  print "<upgrade:nodeColorDark>#".node_color_dark()."</upgrade:nodeColorDark>\n";
+  print "<upgrade:nodeColorText>#".node_color_text()."</upgrade:nodeColorText>\n";
+  print "<upgrade:nodeThemeVersion>".$THEME_VERSION."</upgrade:nodeThemeVersion>\n";
 }
 
 
 function feed_insert_namespace() {
-	print "\n\txmlns:upgrade=\"http://upgrade.eyebeam.org/upgrade\"";
+  print "\n\txmlns:upgrade=\"http://upgrade.eyebeam.org/upgrade\"";
 }
 
 function upgrade_event_form() {
-	global $post;
-	$loc = get_post_meta($post->ID, "event_loc", true);
-	if(empty($loc))
-	{
-		$loc = upgrades_node_address();
-	}
+  global $post;
+  $loc = get_post_meta($post->ID, "event_loc", true);
+  if(empty($loc))
+  {
+	$loc = upgrades_node_address();
+  }
 	$edit_html = '
-		<div class="postbox if-js-open">
-			<h3>' . __('Upgrade Event Location') . '</h3>
-			<div class="inside">
-				<input style="width: 100%;" type="text" name="event_loc" value="'.$loc.'" />
-			</div>
-		</div>';
-	print $edit_html;
+	  <div class="postbox if-js-open">
+		<h3>' . __('Upgrade Event Location') . '</h3>
+		  <div class="inside">
+			<input style="width: 100%;" type="text" name="event_loc" value="'.$loc.'" />
+		  </div>
+	  </div>';
+  print $edit_html;
 }
 
 function upgrade_save_post($post_id) {
-	if (isset($_POST['event_loc']))
-	{
-		// Only delete post meta if isset (to avoid deletion in bulk/quick edit mode)
-		delete_post_meta($post_id, 'event_loc');
-		add_post_meta($post_id, 'event_loc', $_POST['event_loc']);	
-	}
-	
+  if (isset($_POST['event_loc']))
+  {
+    // Only delete post meta if isset (to avoid deletion in bulk/quick edit mode)
+	delete_post_meta($post_id, 'event_loc');
+	add_post_meta($post_id, 'event_loc', $_POST['event_loc']);	
+  }
 }
 
 add_action('rss_head', 'feed_insert_node_info');
