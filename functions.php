@@ -113,8 +113,10 @@ function childtheme_search_value() {
 add_filter('search_field_value', 'childtheme_search_value');
 
 
-// Filtering the thematic loop
-function upgrade_postheader() {
+// Filtering the thematic postheader
+// If not on a page show all content, else remove category and tags
+function upgrade_postheader () {
+  if (!is_page()) {
   ?>
   
     <div class="post">
@@ -122,7 +124,7 @@ function upgrade_postheader() {
 			<?php lang_links($post->ID)?>
 			<span class="cat-links"><?php printf( __( '%s', 'sandbox' ), get_the_category_list(' ') ) ?></span>
 			<?php edit_post_link( __( 'Edit', 'sandbox' ), "<span class='edit-link'>", "</span>" ) ?>
-			<div class="heading"><h2 class="entry-title"><?php the_title() ?></h2></div>
+			<div class="heading"><h2 class="entry-title"><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>"><?php the_title(); ?></h2></div>
 			<?php if (in_category_name('events')){?>						
 				<span class="event-time">
 					<!-- Using the Event Calendar plugin's template tag: -->
@@ -133,11 +135,31 @@ function upgrade_postheader() {
 				<span class="event-loc"><?php echo get_post_meta($post->ID, 'event_loc', true);?></span>
 			<?php } ?>
 			<?php the_tags( __( '<div class="tag-links"><span class="tag-container"><a href=  "#" class="global-tag" title="search tag on the global network"></a>', 'sandbox' ), '</span><span class="tag-container"><a href="#" class="global-tag" title="search tag on the global network"></a>', "</span></div>" ) ?>
-
   <?php
 }
-add_filter(thematic_postheader, upgrade_postheader);
+  else {
+    ?>
+    <div class="post">
+        <div class="post-content span-12">
+			<?php lang_links($post->ID)?>
+			<div class="heading"><h2 class="entry-title"><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>"><?php the_title(); ?></h2></div>
+			<?php if (in_category_name('events')){?>						
+				<span class="event-time">
+					<!-- Using the Event Calendar plugin's template tag: -->
+					<?php ec3_schedule() ?>
+					<!-- Using the default event date:
+					<?php the_time('l, F jS, Y'); ?> at <?php the_time('G:i'); ?> -->
+				</span><br>
+				<span class="event-loc"><?php echo get_post_meta($post->ID, 'event_loc', true);?></span>
+			<?php } ?>
+			<?php the_tags( __( '<div class="tag-links"><span class="tag-container"><a href=  "#" class="global-tag" title="search tag on the global network"></a>', 'sandbox' ), '</span><span class="tag-container"><a href="#" class="global-tag" title="search tag on the global network"></a>', "</span></div>" ) ?>
+    <?php
+  }
+}
+add_action(thematic_postheader, upgrade_postheader);
 
+// If on a page (ie. About) close post content divs
+// This allows contents to float properly next to each other
 function close_divs () {
   if (is_page()) {
   ?>
@@ -148,6 +170,7 @@ function close_divs () {
 }
 add_action(thematic_abovemainasides, close_divs);
 
+// Filtering the thematic postfooter
 function upgrade_postfooter(){
   ?>
       	</div>
@@ -170,34 +193,6 @@ function upgrade_postfooter(){
 }
 add_filter(thematic_postfooter, upgrade_postfooter);
 
-/*
-// Filtering the thematic loop for Pages
-function upgrade_paged_postheader() {
-  if (is_paged()) {
-  ?>
-  
-    <div class="post">
-        <div class="post-content span-12">
-			<?php lang_links($post->ID)?>
-			<span class="cat-links"><?php printf( __( '%s', 'sandbox' ), get_the_category_list(' ') ) ?></span>
-			<?php edit_post_link( __( 'Edit', 'sandbox' ), "<span class='edit-link'>", "</span>" ) ?>
-			<div class="heading"><h2 class="entry-title"><?php the_title() ?></h2></div>
-			<?php if (in_category_name('events')){?>						
-				<span class="event-time">
-					<!-- Using the Event Calendar plugin's template tag: -->
-					<?php ec3_schedule() ?>
-					<!-- Using the default event date:
-					<?php the_time('l, F jS, Y'); ?> at <?php the_time('G:i'); ?> -->
-				</span><br>
-				<span class="event-loc"><?php echo get_post_meta($post->ID, 'event_loc', true);?></span>
-			<?php } ?>
-			<?php the_tags( __( '<div class="tag-links"><span class="tag-container"><a href=  "#" class="global-tag" title="search tag on the global network"></a>', 'sandbox' ), '</span><span class="tag-container"><a href="#" class="global-tag" title="search tag on the global network"></a>', "</span></div>" ) ?>
-      	</div>
-  <?php
-}
-}
-add_filter(thematic_postheader, upgrade_paged_postheader);
-*/
 
 // Dashboard Node Settings
 // Additional, node admin page for the upgrades template
