@@ -3,7 +3,7 @@
 //
 //  Upgrade Node Custom Functions for Thematic Framework
 //
-
+// This childtheme built on the Thematic Theme Framework
 // More ideas can be found on "A Guide To Customizing The Thematic Theme Framework" 
 // http://themeshaper.com/thematic-for-wordpress/guide-customizing-thematic-theme-framework/
 
@@ -224,7 +224,6 @@ if(get_option('upgrades_use_gmap')): ?>
 add_action (thematic_aboveheader, gmap_div);
 
 
-
 // Determine if the language requires RTL settings (using the qTranslate plugin):
 function lang_dir() {
 	if ( function_exists('qtrans_getLanguage')) {
@@ -243,6 +242,7 @@ function lang_links($id) {
 		qtrans_generateLanguageSelectCode('text', $id);
 	}
 }
+
 
 // Address categories by name to check if a certain category has a certain slug
 function in_category_name($name) {
@@ -288,7 +288,9 @@ function upgrade_postheader () {
 			<?php lang_links($post->ID)?>
 			<span class="cat-links"><?php printf( __( '%s', 'sandbox' ), get_the_category_list(' ') ) ?></span>
 			<?php edit_post_link( __( 'Edit', 'sandbox' ), "<span class='edit-link'>", "</span>" ) ?>
-			<div class="heading"><h2 class="entry-title"><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>"><?php the_title(); ?></h2></div>
+			<div class="heading">
+              <h2 class="entry-title"><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>"><?php the_title(); ?></a></h2>
+            </div>
 			<?php if (in_category_name('events')){?>						
 				<span class="event-time">
 					<!-- Using the Event Calendar plugin's template tag: -->
@@ -362,7 +364,7 @@ add_filter(thematic_postfooter, upgrade_postfooter);
 
 
 // Dashboard Node Settings
-// Additional, node admin page for the upgrades template
+// Additional Node admin page for the Upgrade template
 add_action('admin_menu', 'upgrades_add_theme_page');
 
 function upgrades_add_theme_page() {
@@ -469,8 +471,8 @@ function upgrades_theme_node_meta() {
 <?php
 }
 
-// body of the node's setting page:
 
+// body of the node's setting page:
 
 function upgrades_theme_page() {
 	if ( $_REQUEST['saved'] ) echo '<div id="message" class="updated fade"><p><strong>'.__('Options saved.').'</strong></p></div>';
