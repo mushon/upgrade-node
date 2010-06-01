@@ -287,7 +287,7 @@ function upgrade_postheader () {
         <div class="post-content span-12">
 			<?php lang_links($post->ID)?>
 			<span class="cat-links"><?php printf( __( '%s', 'sandbox' ), get_the_category_list(' ') ) ?></span>
-			<?php edit_post_link( __( 'Edit', 'sandbox' ), "<span class='edit-link'>", "</span>" ) ?>
+			<?php edit_post_link(__('Edit', 'thematic'),'<span class="edit-link">','</span>') ?>
 			<div class="heading">
               <h2 class="entry-title"><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>"><?php the_title(); ?></a></h2>
             </div>
@@ -308,7 +308,7 @@ function upgrade_postheader () {
     <div class="post">
         <div class="post-content span-12">
 			<?php lang_links($post->ID)?>
-			<div class="heading"><h2 class="entry-title"><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>"><?php the_title(); ?></h2></div>
+			<div class="heading"><h2 class="entry-title"><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>"><?php the_title(); ?></a></h2></div>
 			<?php if (in_category_name('events')){?>						
 				<span class="event-time">
 					<!-- Using the Event Calendar plugin's template tag: -->

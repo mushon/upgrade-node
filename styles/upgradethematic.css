@@ -574,7 +574,7 @@ div.comment-body{
 	display: none;
 }
 
-/**** Calendar *****/
+/**** Sidebar *****/
 .aside td,
 .aside th {
 	padding: 2px;
@@ -584,9 +584,21 @@ div.comment-body{
 	list-style: none;
 }
 
+.aside ul ul ul li {
+	margin-top: 3px;
+}
+
 .main-aside ul {
 	padding: 0;
 }
+
+.aside a {
+	text-decoration: none;
+	padding: 5px 0;
+	
+}
+
+/**** Calendar *****/
 
 div#wp-calendar{
 	font-size: 0.9em;
@@ -940,3 +952,13 @@ div.sidebars li.page_item, li.page_item ul li{
 	list-style-type:none;
 }
 */
+
+#lang_sel {
+	margin: 10px 0 -43px 480px;
+}
+
+#lang_sel_footer {
+	border:medium none;
+	margin:-40px 0 30px 680px;
+	width:453px;
+}
