@@ -286,7 +286,7 @@ function upgrade_postheader () {
     <div class="post">
         <div class="post-content span-12">
 			<?php lang_links($post->ID)?>
-			<span class="cat-links"><?php printf( __( '%s', 'sandbox' ), get_the_category_list(' ') ) ?></span>
+			<span class="cat-links"><?php printf( __( '%s', 'thematic' ), get_the_category_list(' ') ) ?></span>
 			<?php edit_post_link(__('Edit', 'thematic'),'<span class="edit-link">','</span>') ?>
 			<div class="heading">
               <h2 class="entry-title"><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>"><?php the_title(); ?></a></h2>
@@ -300,7 +300,7 @@ function upgrade_postheader () {
 				</span><br>
 				<span class="event-loc"><?php echo get_post_meta($post->ID, 'event_loc', true);?></span>
 			<?php } ?>
-			<?php the_tags( __( '<div class="tag-links"><span class="tag-container"><a href=  "#" class="global-tag" title="search tag on the global network"></a>', 'sandbox' ), '</span><span class="tag-container"><a href="#" class="global-tag" title="search tag on the global network"></a>', "</span></div>" ) ?>
+			<?php the_tags( __( '<div class="tag-links"><span class="tag-container"><a href=  "#" class="global-tag" title="search tag on the global network"></a>', 'thematic' ), '</span><span class="tag-container"><a href="#" class="global-tag" title="search tag on the global network"></a>', "</span></div>" ) ?>
   <?php
 }
   else {
@@ -350,7 +350,7 @@ function upgrade_postfooter(){
 			<span class="month"><?php the_time('M'); ?></span>
 			<span class="year"><?php the_time('Y'); ?></span>
 			-->
-			<span class="permalink"><a href="<?php the_permalink() ?>" title="<?php printf( __('Permalink to %s', 'sandbox'), the_title_attribute('echo=0') ) ?>" rel="bookmark"></a></span>
+			<span class="permalink"><a href="<?php the_permalink() ?>" title="<?php printf( __('Permalink to %s', 'thematic'), the_title_attribute('echo=0') ) ?>" rel="bookmark"></a></span>
 			<span class="comments-link"><a href="<?php comments_link?>"><?php comments_number('', '1', '%');?></a></span>
 			<a href="#" class="btn-down"></a>
 		</div>

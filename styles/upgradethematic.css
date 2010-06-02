@@ -156,6 +156,7 @@ div#feed{
 	float: right;
 	margin-top: -326px;
 	margin-right: 40px;
+	z-index: 100;
 }
 
 #searchform input#s{
@@ -842,6 +843,7 @@ Footer
 	width: 470px;
 	text-align: center;
 	margin-left: 440px;
+	padding-top: 50px;
 }
 
 #footer {
@@ -954,11 +956,13 @@ div.sidebars li.page_item, li.page_item ul li{
 */
 
 #lang_sel {
-	margin: 10px 0 -43px 480px;
+	margin: 11px 0 -43px 480px;
+	width:200px;
 }
-
+/*
 #lang_sel_footer {
 	border:medium none;
 	margin:-40px 0 30px 680px;
 	width:453px;
 }
+*/
