@@ -141,6 +141,13 @@ Header
 	text-decoration:none;
 }
 
+#blog-title a:active, #blog-title a:hover {
+	width:395px;
+	color: #000;
+	text-decoration: none;
+	background: url(images/bg_tile.gif) repeat-y;
+}
+
 #header{
 	height: 27px;
 }
@@ -207,7 +214,9 @@ div#right-col h2.page-title a{
 /*-----------------------------
 Post
 -----------------------------*/
-
+.post{
+	width: 510px;
+}
 #content {
     margin: 0;
     overflow: visible;
@@ -268,7 +277,7 @@ Post
 #container div.post div.tag-links{
 	padding-left: 40px;
 	background: url(images/tag_title_bg.png) repeat-y  -110px -3px;
-	float: left;
+	/*float: left;*/
 	margin: 10px 40px 0 0;
 }
 
@@ -462,7 +471,7 @@ div.nav-next{
 }
 
 /*-----------------------------
-page
+Page
 -----------------------------*/
 
 body.page div.post-content{
@@ -575,7 +584,10 @@ div.comment-body{
 	display: none;
 }
 
-/**** Sidebar *****/
+/*-----------------------------
+Sidebar
+-----------------------------*/
+
 .aside td,
 .aside th {
 	padding: 2px;
@@ -599,17 +611,19 @@ div.comment-body{
 	
 }
 
-/**** Calendar *****/
+/*-----------------------------
+Calendar
+-----------------------------*/
 
 div#wp-calendar{
 	font-size: 0.9em;
-	line-height: 1.8em;
+	line-height: 1.9em;
 	/* padding: 0 10px; */
 	width: 180px;
 }
 
 div#wp-calendar table{
-	margin: 0;
+	margin: -5px 0 10px 0;
 }
 
 div#wp-calendar table th{
@@ -630,6 +644,8 @@ div#wp-calendar caption{
 	font-weight: bold;
 	text-align: center;
 	background: none;
+	padding-bottom:13px;
+	margin-top: -10px;
 }
 
 div#wp-calendar table td:hover{
@@ -639,14 +655,14 @@ div#wp-calendar table td:hover{
 
 div#wp-calendar table td.ec3_eventday{
 	border-width: 0 0 1px;
-	border-color: #A5FCA9;
+	border-color: #800;
 	padding: 1px 0 0;
 }
 
 div#wp-calendar table td.ec3_eventday:hover{
 	border-width:0 0 4px;
 	line-height:1.2em;
-	padding:4px 0 0;
+	/*padding:4px 0 0;*/
 }
 
 div#wp-calendar table td.ec3_eventday a{
@@ -665,7 +681,10 @@ div#wp-calendar table.nav #prev{
 	font-weight: bold;
 }
 
-/*Tag Cloud:*/
+/*-----------------------------
+Tag Cloud
+-----------------------------*/
+
 .widget_tag_cloud a{
 	background:#FFFFFF url(images/tag-widget_bg.png) scroll right bottom;
 	border-bottom: 1px solid #c5c4c4;
@@ -677,7 +696,10 @@ div#wp-calendar table.nav #prev{
 	line-height: 16px;
 }
 
-/*Network feed:*/
+/*-----------------------------
+Network feed
+-----------------------------*/
+
 .widget_netfeed li div.net_wrap,
 .widget_netfeed li a{
 	display: block;
@@ -718,7 +740,9 @@ div.sidebar li.widget_netfeed ul{
 	margin: 0;
 }
 
-/**** Upcoming Events *****/
+/*-----------------------------
+Upcoming Events
+-----------------------------*/
 
 ul.ec3_events li.ec3_list{
 	padding: 0 10px;
@@ -738,7 +762,10 @@ ul.ec3_events li.ec3_list ul li{
 	margin-left: -4px;
 }
 
-/*For RTL Languages:*/
+/*-----------------------------
+For RTL Languages
+-----------------------------*/
+
 body.dir-rtl{
 	direction: ltr;
 }
@@ -798,7 +825,9 @@ body.dir-rtl li#pages li.page_item ul {
 	margin-left: 0;
 }
 
-/*Language picker: */
+/*-----------------------------
+Language picker
+-----------------------------*/
 div.post-content:hover ul.qtrans_language_chooser{
 	display: block;
 }
@@ -922,6 +951,7 @@ li.page_item a{
 
 li.page_item a:hover{
 	background: #959595;
+	color: #fff;
 }
 
 li.page_item li a{

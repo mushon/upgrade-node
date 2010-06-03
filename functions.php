@@ -1,7 +1,7 @@
 <?php
 
 //
-//  Upgrade Node Custom Functions for Thematic Framework
+// Upgrade Node Custom Functions for Thematic Framework
 //
 // This childtheme built on the Thematic Theme Framework
 // More ideas can be found on "A Guide To Customizing The Thematic Theme Framework" 
@@ -281,11 +281,11 @@ add_filter('search_field_value', 'childtheme_search_value');
 // If not on a page show all content, else remove category and tags
 function upgrade_postheader () {
   if (!is_page()) {
-  ?>
+    global $post;
+    ?>
   
     <div class="post">
         <div class="post-content span-12">
-			<?php lang_links($post->ID)?>
 			<span class="cat-links"><?php printf( __( '%s', 'thematic' ), get_the_category_list(' ') ) ?></span>
 			<?php edit_post_link(__('Edit', 'thematic'),'<span class="edit-link">','</span>') ?>
 			<div class="heading">
@@ -295,8 +295,6 @@ function upgrade_postheader () {
 				<span class="event-time">
 					<!-- Using the Event Calendar plugin's template tag: -->
 					<?php ec3_schedule() ?>
-					<!-- Using the default event date:
-					<?php the_time('l, F jS, Y'); ?> at <?php the_time('G:i'); ?> -->
 				</span><br>
 				<span class="event-loc"><?php echo get_post_meta($post->ID, 'event_loc', true);?></span>
 			<?php } ?>
@@ -304,17 +302,15 @@ function upgrade_postheader () {
   <?php
 }
   else {
+    global $post;
     ?>
     <div class="post">
         <div class="post-content span-12">
-			<?php lang_links($post->ID)?>
 			<div class="heading"><h2 class="entry-title"><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>"><?php the_title(); ?></a></h2></div>
 			<?php if (in_category_name('events')){?>						
 				<span class="event-time">
 					<!-- Using the Event Calendar plugin's template tag: -->
 					<?php ec3_schedule() ?>
-					<!-- Using the default event date:
-					<?php the_time('l, F jS, Y'); ?> at <?php the_time('G:i'); ?> -->
 				</span><br>
 				<span class="event-loc"><?php echo get_post_meta($post->ID, 'event_loc', true);?></span>
 			<?php } ?>
