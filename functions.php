@@ -286,11 +286,21 @@ function ec3_schedule(){
 	}
 }
 
+// Add RSS feed icon link
+function add_rss(){
+  ?><div class="" id="feed">
+      <a title="RSS feed" href="http://localhost:8888/upgrade/?feed=rss2"><img alt="rss-feed" src="http://localhost:8888/upgrade/wp-content/themes/ui09/styles/images/rss_icon.png"></a>
+	</div><?php
+}
+add_action('thematic_abovecontainer','add_rss');
+
+
 // Add search to header
 function add_search() {
 include (TEMPLATEPATH . '/searchform.php');
 }
 add_action('thematic_abovecontainer','add_search');
+
 
 // Change search box text
 function childtheme_search_value() {

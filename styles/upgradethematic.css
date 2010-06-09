@@ -156,12 +156,12 @@ Header
 	margin-top: 300px;
 }
 
-/*
-div#feed{
+#feed{
 	float: right;
-	margin: 10px 0 0 10px;
+	margin-top:-330px;
+	margin-right:-5px;
 }
-*/
+
  
 #searchform {
 	float: right;
