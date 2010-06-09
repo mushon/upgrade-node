@@ -92,7 +92,8 @@ function add_wphead() {
  
  // Echo the whole thing
  echo $content;
- 
+
+
 // Add gmap scripts and options
    if(get_option('upgrades_use_gmap')): ?>
 	
@@ -178,9 +179,10 @@ function add_wphead() {
 	
 	<?php endif;  // if get_option('upgrades_use_gmap')
 }
-
+ 
 add_action ('wp_head', 'add_wphead');
 
+/*
 // Add gmap divs
 function gmap_div () {
 if(get_option('upgrades_use_gmap')): ?>
@@ -222,7 +224,27 @@ if(get_option('upgrades_use_gmap')): ?>
 <?php endif;
 }
 add_action (thematic_aboveheader, gmap_div);
+*/
 
+
+// Add gmap divs
+function gmap_div () {
+  ?><body class="<?php thematic_body_class() ?> <?php lang_dir() ?>" onload="load()" onunload="GUnload()">
+  <div id="map">
+      <div id="gmap">
+      <?php echo GeoMashup::map('height=325&width=100%&add_overview_control=false&add_map_type_control=false');?>
+  </div>
+      <div id="stripe"></div>
+  </div>
+      <style>
+          #map {
+              background-image: url(<?=$header_bg_image?>);
+              background-repeat: repeat;
+          }
+          </style>
+    <?php
+}
+add_action (thematic_aboveheader, gmap_div);
 
 // Determine if the language requires RTL settings (using the qTranslate plugin):
 function lang_dir() {
@@ -268,7 +290,7 @@ function ec3_schedule(){
 function add_search() {
 include (TEMPLATEPATH . '/searchform.php');
 }
-add_action('thematic_header','add_search');
+add_action('thematic_abovecontainer','add_search');
 
 // Change search box text
 function childtheme_search_value() {
@@ -919,5 +941,88 @@ register_sidebar_widget('Upgrade! Network Feed', 'widget_netfeed');
 // This registers the (optional!) widget control form.
 register_widget_control('Upgrade! Network Feed', 'widget_netfeed_control');
 
+
+// SimplePie RSS Feed Widget
+error_reporting(E_ALL);
+add_action("widgets_init", array('Widget_name', 'register'));
+register_activation_hook( __FILE__, array('Widget_name', 'activate'));
+register_deactivation_hook( __FILE__, array('Widget_name', 'deactivate'));
+class Widget_name {
+  function activate(){
+    $data = array( 'option1' => 'Default value' ,'option2' => 55);
+    if ( ! get_option('widget_name')){
+      add_option('widget_name' , $data);
+    } else {
+      update_option('widget_name' , $data);
+    }
+  }
+  function deactivate(){
+    delete_option('widget_name');
+  }
+  function control(){
+    echo 'I am a control panel';
+  }
+  function widget($args){
+    echo $args['before_widget'];
+    echo $args['before_title'] . 'Latest Global Posts' . $args['after_title'];
+      //echo 'I am your widget';
+      //echo SimplePieWP(array(
+      //    'http://wowm.org/uz/',
+      //    'http://turbulence.org/upgrade_boston/',
+      //    'http://www.upgrade-berlin.net/',
+      //    'http://upgradechicago.org/'
+      //), array(
+      //    'items' => 10,
+      //    'cache_duration' => 1800,
+      //    'date_format' => 'j M Y, g:i a',
+      //    'template' => 'networkfeed'
+      //));
+
+      $feed = new SimplePie (array(
+      'http://wowm.org/uz/',
+      'http://turbulence.org/upgrade_boston/',
+      'http://www.upgrade-berlin.net/',
+      'http://upgradechicago.org/'));
+      $feed->handle_content_type();
+        foreach ($feed->get_items() as $item):
+          //echo $item->get_feed()->get_title();
+          ?>
+          <ul>
+             <li>
+                 <h5><a href="<?php print $item->get_permalink(); ?>">
+                 <?php print $item->get_title(); ?></a></h5>
+                 <?php //print $item->get_description(); ?>
+            </li>
+            <li>
+            <?php
+            //echo '<h4><a href=" ' . $item->get_permalink() . "'>' . $item->get_feed()->get_title() . '</a></h4>;
+            echo $item->get_latitude();
+            echo $item->get_longitude();
+            ?></li>
+          </ul><?php
+        endforeach;
+            
+          echo $args['after_widget'];
+        }
+  function register(){
+    register_sidebar_widget('Widget name', array('Widget_name', 'widget'));
+    register_widget_control('Widget name', array('Widget_name', 'control'));
+  }
+}
+
+function control(){
+  $data = get_option('widget_name');
+  ?>
+  <p><label>Option 1<input name="widget_name_option1"
+type="text" value="<?php echo $data['option1']; ?>" /></label></p>
+  <p><label>Option 2<input name="widget_name_option2"
+type="text" value="<?php echo $data['option2']; ?>" /></label></p>
+  <?php
+   if (isset($_POST['widget_name_option1'])){
+    $data['option1'] = attribute_escape($_POST['widget_name_option1']);
+    $data['option2'] = attribute_escape($_POST['widget_name_option2']);
+    update_option('widget_name', $data);
+  }
+}
 
 ?>
