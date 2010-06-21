@@ -7,7 +7,11 @@ Upgrade International Theme
 * Text-(dark)-tone:	#69ab6c
 **********************************/
 
-/* General */
+/*-----------------------------
+General 
+-----------------------------*/
+
+
 body {
 	background: #f3f3f3 url(images/bg_tile.gif) repeat-y center;
 	color: #444;
@@ -94,11 +98,11 @@ h1 a span {
 	width: auto;
 }
 
-div#gmap{
+#gmap{
 	height: 330px;
 }
 
-div#stripe{
+#stripe{
 	position: absolute;
 	top: 312px;
 	width: 100%;
@@ -111,19 +115,9 @@ div#stripe{
 }
 
 /*-----------------------------
-Right Column
------------------------------*/
-/*
-div#right-col{
-	float: right;
-	width: 560px;
-	position: relative;
-}
-*/
-
-/*-----------------------------
 Header
 -----------------------------*/
+
 
 #access {
 	display: none;
@@ -135,19 +129,16 @@ Header
 	padding: 0;
 }
 
-#blog-title {
-	text-align: left;
-}
-
 #blog-title a {
 	color:#000000;
 	font-size: 28px;
 	text-decoration:none;
+	text-align: left;
 }
 
 #blog-title a:active, #blog-title a:hover {
 	width:395px;
-	color: #000;
+	color: #000000;
 	text-decoration: none;
 	background: url(images/bg_tile.gif) repeat-y;
 }
@@ -185,12 +176,11 @@ Header
 	height: 21px;
 	background: url(images/search_btn.png);
 	border: none;
-	margin: 0;
 	float: left;
 	text-indent: -3000px;
 }
 
-#searchsubmit hover{
+#searchsubmit:hover {
 	background: url(images/search_btn.png);
 	background-position: -24px 0;
 }
@@ -218,6 +208,8 @@ div#right-col h2.page-title a{
 /*-----------------------------
 Post
 -----------------------------*/
+
+
 .post{
 	width: 510px;
 }
