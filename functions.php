@@ -31,7 +31,7 @@ register_sidebar(array(
 'after_title' => thematic_after_title(),
 ));
  
-// Unregister and sidebars you donÕt need based on its ID.
+// Unregister and sidebars you don't need based on its ID.
 // For a full list of Thematic sidebar IDs, look at /thematc/library/extensions/widgets-extensions.php
 unregister_sidebar('index-top');
 unregister_sidebar('index-insert');
@@ -933,18 +933,30 @@ register_deactivation_hook( __FILE__, array('network_feed_widget', 'deactivate')
                 $nodename = $item->get_feed()->get_channel_tags('http://upgrade.eyebeam.org/upgrade', 'nodeName');
                 $name = $nodename[0]['data'];
                 
+                $nodecolordark = $item->get_feed()->get_channel_tags('http://upgrade.eyebeam.org/upgrade', 'nodeColorDark');
+                $dark = $nodecolordark[0]['data'];
+                
+                $nodecolorlight = $item->get_feed()->get_channel_tags('http://upgrade.eyebeam.org/upgrade', 'nodeColorLight');
+                $light = $nodecolorlight[0]['data'];
+                
+                $nodecolortext = $item->get_feed()->get_channel_tags('http://upgrade.eyebeam.org/upgrade', 'nodeColorText');
+                $text = $nodecolortext[0]['data'];
+                
                 // Finally, echo the custom data and place it the widget.
                 ?>
                   <div class="feedcontent">
-                      <li>
-                        <span class="nodename">U! <?php echo $name; ?>:</span>
+                    <div class="wrap" style="border-color:<?php echo $dark?>">
+                      <li style="border-color:<?php echo $text?>; padding: 0 6px">
+                        <span class="nodename" style="color:<?php echo $text ?>">U! <?php echo $name; ?>:</span>
                 <?php
                     // List the global feed post titles and link to the post permalink.
                     ?>
-                        <span class="feed"><a href="<?php print $item->get_permalink(); ?>">
+                        <span class="feed">
+                        <a href="<?php print $item->get_permalink(); ?>" style="color:<?php echo $text ?>">
                         <?php print $item->get_title(); ?></a></span>
                         <?php //print $item->get_description(); ?>
                       </li>
+                    </div>
                   </div>
                   
               <?php endforeach;

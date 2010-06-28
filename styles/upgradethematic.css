@@ -862,16 +862,38 @@ Other
 }
 
 .feedcontent {
-	border-bottom: 2px dotted #BEBEBE !important;
+	/*border-bottom: 2px dotted #BEBEBE !important;*/
 	font-size:12px;
 	margin-left:-25px;
 	padding:5px;
 	width:180px;
 }
+.feedcontent li{
+	border-width: 2px 0 0 0;
+	border-style: solid;
+}
+
+.feedcontent a:hover{
+	background-color: transparent;
+}
 
 .nodename {
 	font-weight: bold;
 	text-transform: capitalize;
+}
+
+.wrap {
+	border-top: 2px solid;
+	background-color: #F3F3F3;
+}
+
+.feedcontent li:hover {
+	border-width: 6px 0 0 0;
+}
+
+.wrap:hover{
+	border-top: 3px solid;
+	background-color: #FFFFFF;
 }
 
 /*-----------------------------
