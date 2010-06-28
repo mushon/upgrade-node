@@ -213,11 +213,11 @@ Post
 .post{
 	width: 510px;
 }
+
 #content {
     margin: 0;
     overflow: visible;
     width:510px;
-
 }
 
 #container {
@@ -260,7 +260,6 @@ Post
 	color:rgba(0, 0, 0, 0.5);
 	font-weight: bold;
 	font-size: 12px;
-	
 }
 
 #container div.post span.event-loc{
@@ -349,7 +348,7 @@ Post
 Post
 -----------------------------*/
 
-/* Post Meta: */
+
 div.entry-meta{
 	text-align: center;
 	background: #a5fca9;
@@ -453,6 +452,7 @@ div#nav-below {
 
 .navigation a:active, .navigation a:hover{
 	font-style: normal;
+	color: #fff;
 }
 
 div.navigation div{
@@ -859,6 +859,19 @@ Other
 .author_gravatar{
 	float: left;
 	margin: 5px 10px 4px 0;
+}
+
+.feedcontent {
+	border-bottom: 2px dotted #BEBEBE !important;
+	font-size:12px;
+	margin-left:-25px;
+	padding:5px;
+	width:180px;
+}
+
+.nodename {
+	font-weight: bold;
+	text-transform: capitalize;
 }
 
 /*-----------------------------

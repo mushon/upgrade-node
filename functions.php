@@ -89,7 +89,7 @@ function add_wphead() {
  $content .= '/styles/upgradethematic.css';
  $content .= "\" media=\"upgradethematic\" />";
  $content .= "\n";
- 
+
  // Echo the whole thing
  echo $content;
  
@@ -97,14 +97,82 @@ function add_wphead() {
  
 add_action ('wp_head', 'add_wphead');
 
+// Call geoxml.js
+function childtheme_scripts() {?>
+	<?php echo "\n\t" ?><script type="text/javascript" charset="utf-8" src="<?php bloginfo('stylesheet_directory'); ?>/styles/geoxml.js"></script><?php echo "\n" ?>
+    <?php echo "\n\t" ?><script type="text/javascript" charset="utf-8" src="<?php bloginfo('stylesheet_directory'); ?>/styles/json.js"></script><?php echo "\n" ?>
+    <?php }
+add_action('wp_head', 'childtheme_scripts');
 
-// Add gmap divs and calling the Geo Mash Up map
+/*
+?><script type="text/javascript">
+  //<![CDATA[
+  var mmap=new GMap2(document.getElementById("map"),{draggableCursor: 'crosshair', draggingCursor: 'move'});
+    mmap.setCenter(new GLatLng(0,0),2);
+    mmap.addControl(new GLargeMapControl());
+    mmap.addControl(new GMapTypeControl());
+    mmap.enableScrollWheelZoom();
+    mmap.enableDoubleClickZoom();
+    mmap.enableContinuousZoom();
+  var proxy = "/cgi-bin/proxy.php?"
+  var urls = ["http://ws.geonames.org/rssToGeoRSS?feedUrl=http://feeds.reuters.com/reuters/technologyNews","http://ws.geonames.org/rssToGeoRSS?feedUrl=http://feeds.reuters.com/reuters/domesticNews","http://ws.geonames.org/rssToGeoRSS?feedUrl=http://feeds.reuters.com/reuters/topNews","http://ws.geonames.org/rssToGeoRSS?feedUrl=http://feeds.reuters.com/reuters/internetNews"];
+  var exml = new GeoXml("exml", mmap, urls, {sidebarid:"the_side_bar",makedescription:true,iwheight:180});
+  exml.parse(["Technological News"," US News","Top News","Internet Tech"]);
+  //]]>
+</script><?php
+*/
+/*
+?><script>
+  //<![CDATA[
+var icon = new GIcon(G_DEFAULT_ICON,"building_yellow.png");
+    icon.iconSize = new GSize(17, 24);
+    icon.shadowSize = new GSize(11, 21);
+    icon.iconAnchor = new GPoint(3, 17);
+    icon.infoWindowAnchor = new GPoint(3, 1);
+
+var ricon = new GIcon(icon,"building_red.png");
+
+    var mmap=new GMap2(document.getElementById("map"),{draggingCursor: 'move'});
+    mmap.setCenter(new GLatLng(31.1,108.5),2);
+    mmap.addControl(new GLargeMapControl());
+    mmap.addControl(new GMapTypeControl());
+    mmap.enableScrollWheelZoom();
+    mmap.enableDoubleClickZoom();
+    mmap.enableContinuousZoom();
+var proxy = "/cgi-bin/proxy.php?";
+
+//var gdacs = "http://www.gdacs.org/xml/RSSFL2.xml";
+//var gdacs = "http://feeds.feedburner.com/RsoeEdis-EmergencyAndDisasterInformation?format=xml";
+//var gdacs = "http://feedproxy.feedburner.com/RsoeEdis-EmergencyAndDisasterInformation?format=xml";
+//var gdacs = "http://feedproxy.feedburner.com/RsoeEdis-VolcanoMonitoring?format=xml";
+///var yahoohurr ="http://rss.news.yahoo.com/rss/hurricanes";
+var gdacsfl = "http://dma.jrc.it/services/gdas/fl/rss.asp?alertscore=3";
+//var gdacsvol = "http://www.gdacs.org/xml/rssvo_si.xml";
+var eq25url = "http://earthquake.usgs.gov/eqcenter/catalogs/eqs7day-M2.5.xml";
+var eq5url = "http://earthquake.usgs.gov/eqcenter/catalogs/eqs7day-M5.xml";
+
+//var path = [yahoohurr,gdacsfl,gdacsvol,eq25url,eq5url];
+//var mb = document.getElementById('messager');
+//exml.parse(["Yahoo Hurricanes","GDACS Floods","GDACS Volcanoes","Earthquake >2.5","Earthquake >5"]);
+var exml = new GeoXml("exml", mmap,"http://www.gdacs.org/xml/gdacs.kml", {sidebarid:"the_side_bar", iwwidth:520, allfoldersopen:false, iconFromDescription:false, domouseover:false});
+
+    exml.parse("GDACS Floods");
+var exml1 = new GeoXml("exml1", mmap, eq25url, {sidebarid:"the_side_bar", allfoldersopen:false, iconFromDescription:false, domouseover:false, baseicon:icon});
+    exml1.parse("Eathquakes > 2.5");
+var exml2 = new GeoXml("exml2", mmap, eq5url, {sidebarid:"the_side_bar", allfoldersopen:false, iconFromDescription:false, domouseover:false, baseicon:ricon});
+    exml2.parse("Earth Quakes > 5");
+  //]]>
+</script><?php
+*/
+
+
+// Add gmap divs and calling the Geo Mash Up map.
 function gmap_div () {
   ?><body class="<?php thematic_body_class() ?> <?php lang_dir() ?>" onload="load()" onunload="GUnload()">
   <div id="map">
       <div id="gmap">
       <?php echo GeoMashup::map('height=325&width=100%&add_overview_control=false&add_map_type_control=false');?>
-  </div>
+      </div>
       <div id="stripe"></div>
   </div>
       <style>
@@ -130,6 +198,7 @@ function lang_dir() {
 	}
 }
 
+
 /*
 // Creates the links for the translations of the post. use either 'text', 'image', 'both' or 'dropdown':
 function lang_links($id) {
@@ -137,7 +206,7 @@ function lang_links($id) {
 		qtrans_generateLanguageSelectCode('text', $id);
 	}
 }
-                                            */
+*/
 
 // Address categories by name to check if a certain category has a certain slug
 function in_category_name($name) {
@@ -163,13 +232,13 @@ function ec3_schedule(){
 // Add RSS feed icon link
 function add_rss(){
   ?><div class="" id="feed">
-      <a title="RSS feed" href="http://localhost:8888/upgrade/?feed=rss2"><img alt="rss-feed" src="http://localhost:8888/upgrade/wp-content/themes/ui09/styles/images/rss_icon.png"></a>
+      <a title="RSS feed" href="<?php bloginfo('rss2_url'); ?>"><img alt="rss-feed" src="<?php bloginfo('stylesheet_directory'); ?>/styles/images/rss_icon.png"></a>
 	</div><?php
 }
 add_action('thematic_abovecontainer','add_rss');
 
 
-// Add search to header
+// Add search bar to header
 function add_search() {
 include (TEMPLATEPATH . '/searchform.php');
 }
@@ -189,7 +258,7 @@ function upgrade_postheader () {
   if (!is_page()) {
     global $post;
     ?>
-  
+    
     <div class="post">
         <div class="post-content span-12">
 			<span class="cat-links"><?php printf( __( '%s', 'thematic' ), get_the_category_list(' ') ) ?></span>
@@ -262,16 +331,13 @@ function upgrade_postfooter(){
 add_filter(thematic_postfooter, upgrade_postfooter);
 
 
-
-
-
 // Dashboard Node Settings
 // Additional Node admin page for the Upgrade template
 add_action('admin_menu', 'upgrades_add_theme_page');
 
 function upgrades_add_theme_page() {
 	if ( $_GET['page'] == basename(__FILE__) ) {
-
+    
 		if ( 'save' == $_REQUEST['action'] ) {
 			if ( isset($_REQUEST['njform']) ) {
 			
@@ -280,7 +346,7 @@ function upgrades_add_theme_page() {
 					else {
 						update_option('upgrades_use_gmap', "true");
 					}
-			
+                    
 					if ( '' == $_REQUEST['upgrades_node_name'] )
 						delete_option('upgrades_node_name');
 					else {
@@ -301,21 +367,21 @@ function upgrades_add_theme_page() {
 						$node_color_light = trim ( $_REQUEST['node_color_light'] );
 						update_option('node_color_light', $node_color_light);
 					}
-				
+                    
 				 	if ( '' == $_REQUEST['node_color_dark'] )
 						delete_option('node_color_dark');
 					else {
 						$node_color_dark = trim ( $_REQUEST['node_color_dark'] );
 						update_option('node_color_dark', $node_color_dark);
 					}
-				
+                    
 				 	if ( '' == $_REQUEST['node_color_text'] )
 						delete_option('node_color_text');
 					else {
 						$node_color_text = trim ( $_REQUEST['node_color_text'] );
 						update_option('node_color_text', $node_color_text);
 					}
-
+                    
 					if ( '' == $_REQUEST['upgrades_node_address'] )
 						delete_option('upgrades_node_address');
 					else {
@@ -329,14 +395,14 @@ function upgrades_add_theme_page() {
 						$upgrades_node_lat = trim ( $_REQUEST['upgrades_node_lat'] );
 						update_option('upgrades_node_lat', $upgrades_node_lat);
 					}
-
+                    
 					if ( '' == $_REQUEST['upgrades_node_lon'] )
 						delete_option('upgrades_node_lon');
 					else {
 						$upgrades_node_lon = trim ( $_REQUEST['upgrades_node_lon'] );
 						update_option('upgrades_node_lon', $upgrades_node_lon);
 					}
-
+                    
 					if ( '' == $_REQUEST['upgrades_node_zoom'] )
 						delete_option('upgrades_node_zoom');
 					else {
@@ -344,7 +410,7 @@ function upgrades_add_theme_page() {
 						update_option('upgrades_node_zoom', $upgrades_node_zoom);
 					}
 			}
-
+            
 			//print_r($_REQUEST);
 			wp_redirect("themes.php?page=functions.php&saved=true");
 			die;
@@ -355,8 +421,8 @@ function upgrades_add_theme_page() {
 	add_theme_page(__('Node Settings'), __('Node Settings'), 'edit_themes', basename(__FILE__), 'upgrades_theme_page');
 }
 
-// head of the node's settings page
 
+// Head of the node's settings page
 function upgrades_theme_node_meta() {
 ?>
 <script type='text/javascript'>
@@ -374,8 +440,7 @@ function upgrades_theme_node_meta() {
 }
 
 
-// body of the node's setting page:
-
+// Body of the node's setting page:
 function upgrades_theme_page() {
 	if ( $_REQUEST['saved'] ) echo '<div id="message" class="updated fade"><p><strong>'.__('Options saved.').'</strong></p></div>';
 ?>
@@ -388,7 +453,7 @@ function upgrades_theme_page() {
 				<?php wp_nonce_field('node_settings'); ?>
 				
 				<h3>General details</h3>
-
+                
 				<table class="form-table">
 				
 					<tr valign="top">
@@ -425,7 +490,7 @@ function upgrades_theme_page() {
 				</table>
 				
 				<h3>Node Ribbon Colors</h3>
-
+                
 				<table class="form-table">
 				
 					<tr valign="top">
@@ -450,12 +515,12 @@ function upgrades_theme_page() {
 						<br />This will be used for text links and should be contrasted enough from your other two tones (a 30% darker tone based on your dark ribbon colors usually works)
 					</td>
 					</tr>
-
+                
 				</table>
 				
 				
 				<h3>Default Location</h3>
-
+                
 				<table class="form-table">
 				
 					<tr valign="top">
@@ -473,32 +538,30 @@ function upgrades_theme_page() {
 					
 					Longitude:<input name="upgrades_node_lon" type="text" id="upgrades_node_lon" 
 						value="<?php echo attribute_escape(upgrades_node_lon()); ?>" size="32" />
-
+                    
 					Zoom:<input name="upgrades_node_zoom" type="text" id="upgrades_node_zoom" 
 						value="<?php echo attribute_escape(upgrades_node_zoom()); ?>" size="32" />
-
+                    
 					<br />
 					   Use Google Maps to find the lat/lon of your location. 
 					   <a href="http://www.getlatlon.com/" target="_blank">More tips here</a>
 					</td>
 					</tr>
-
+                
 				</table>
-
-
+                
 				<input type="hidden" name="action" value="save" />
 				<input type="hidden" name="njform" value="true" />
-
+                
 				<br />
 				<p class="submit"><input type="submit" name="Submit" value="<?php _e('Save Settings'); ?>" /></p>
 				
 			</form>
 		</div>
-
 </div>
 <?php }
 
-//embed styles in header:
+// Embed styles in header.
 function nodeStyles(){
 	echo "
 	
@@ -576,8 +639,7 @@ function nodeStyles(){
 }
 
 
-///  keys
-
+// Keys
 /*
 function node_google_key() {
 	return apply_filters('node_google_key', get_option('node_google_key'));
@@ -586,7 +648,7 @@ function node_google_key() {
 
 function upgrades_node_name() {
 	if(!get_option('upgrades_node_name')) {
-		add_option('upgrades_node_name', 'Defualt Node Name');
+		add_option('upgrades_node_name', 'Default Node Name');
 	}
 	return apply_filters('upgrades_node_name', get_option('upgrades_node_name'));
 }
@@ -679,7 +741,7 @@ function geolocate()
 	}
 }
 
-
+// Add custom tags into the feeds.
 function feed_insert_node_info() {
   print "<upgrade:nodeName>".upgrades_node_name()."</upgrade:nodeName>\n";
   print "<upgrade:nodeUrl>".bloginfo('home')."</upgrade:nodeUrl>\n";
@@ -690,7 +752,7 @@ function feed_insert_node_info() {
   print "<upgrade:nodeThemeVersion>".$THEME_VERSION."</upgrade:nodeThemeVersion>\n";
 }
 
-
+// Add Upgrade namespace.
 function feed_insert_namespace() {
   print "\n\txmlns:upgrade=\"http://upgrade.eyebeam.org/upgrade\"";
 }
@@ -736,7 +798,6 @@ add_action('save_post', 'upgrade_save_post');
 // This array will hold the RSS items that have georss info 
 // so that the Google Map can add them in the theme.
 $netFeed = array();
-
 
 function parse_net_feed() {
 	global $netFeed;
@@ -826,87 +887,96 @@ register_sidebar_widget('Upgrade! Network Feed', 'widget_netfeed');
 register_widget_control('Upgrade! Network Feed', 'widget_netfeed_control');
 
 
-// SimplePie RSS Feed Widget
+// SimplePie RSS U! Network Feed Widget
 error_reporting(E_ALL);
-add_action("widgets_init", array('Widget_name', 'register'));
-register_activation_hook( __FILE__, array('Widget_name', 'activate'));
-register_deactivation_hook( __FILE__, array('Widget_name', 'deactivate'));
-class Widget_name {
-  function activate(){
-    $data = array( 'option1' => 'Default value' ,'option2' => 55);
-    if ( ! get_option('widget_name')){
-      add_option('widget_name' , $data);
-    } else {
-      update_option('widget_name' , $data);
-    }
-  }
-  function deactivate(){
-    delete_option('widget_name');
-  }
-  function control(){
-    echo 'I am a control panel';
-  }
-  function widget($args){
-    echo $args['before_widget'];
-    echo $args['before_title'] . 'Latest Global Posts' . $args['after_title'];
-      //echo 'I am your widget';
-      //echo SimplePieWP(array(
-      //    'http://wowm.org/uz/',
-      //    'http://turbulence.org/upgrade_boston/',
-      //    'http://www.upgrade-berlin.net/',
-      //    'http://upgradechicago.org/'
-      //), array(
-      //    'items' => 10,
-      //    'cache_duration' => 1800,
-      //    'date_format' => 'j M Y, g:i a',
-      //    'template' => 'networkfeed'
-      //));
-
-      $feed = new SimplePie (array(
-      'http://wowm.org/uz/',
-      'http://turbulence.org/upgrade_boston/',
-      'http://www.upgrade-berlin.net/',
-      'http://upgradechicago.org/'));
-      $feed->handle_content_type();
-        foreach ($feed->get_items() as $item):
-          //echo $item->get_feed()->get_title();
-          ?>
-          <ul>
-             <li>
-                 <h5><a href="<?php print $item->get_permalink(); ?>">
-                 <?php print $item->get_title(); ?></a></h5>
-                 <?php //print $item->get_description(); ?>
-            </li>
-            <li>
-            <?php
-            //echo '<h4><a href=" ' . $item->get_permalink() . "'>' . $item->get_feed()->get_title() . '</a></h4>;
-            echo $item->get_latitude();
-            echo $item->get_longitude();
-            ?></li>
-          </ul><?php
-        endforeach;
-            
-          echo $args['after_widget'];
-        }
+add_action("widgets_init", array('network_feed_widget', 'register'));
+register_activation_hook( __FILE__, array('network_feed_widget', 'activate'));
+register_deactivation_hook( __FILE__, array('network_feed_widget', 'deactivate'));
+  class network_feed_widget {
+      function activate(){
+          $data = array( 'option1' => 'Default value' ,'option2' => 55);
+          if ( ! get_option('network_feed_widget')){
+            add_option('network_feed_widget' , $data);
+          } else {
+            update_option('network_feed_widget' , $data);
+          }
+      }
+      
+      function deactivate(){
+          delete_option('network_feed_widget');
+      }
+      
+      function control(){
+          echo 'This is the U! Network Feed for Global Events. Place this widget in the primary or secondary asides.';
+      }
+      
+      function widget($args){
+          echo $args['before_widget'];
+          echo $args['before_title'] . 'Latest Global Events' . $args['after_title'];
+          
+              // Use the SP for WP plugin and, through an array, pull multiple rss feeds together.
+              // For more information: http://simplepie.org/
+              $feed = new SimplePie (array(
+                'http://wowm.org/uz/',
+                'http://turbulence.org/upgrade_boston/',
+                'http://www.upgrade-berlin.net/',
+                'http://upgradechicago.org/'));
+              
+              // Initialize the feed so that we can use it.
+              $feed->init();
+              
+              $feed->handle_content_type();
+                echo "<ul>";
+                foreach ($feed->get_items(0,7) as $item):
+                
+                // Call the custom Upgrade tags within the feeds (we must also call the original feed from which the data is being pulled)
+                $nodename = $item->get_feed()->get_channel_tags('http://upgrade.eyebeam.org/upgrade', 'nodeName');
+                $name = $nodename[0]['data'];
+                
+                // Finally, echo the custom data and place it the widget.
+                ?>
+                  <div class="feedcontent">
+                      <li>
+                        <span class="nodename">U! <?php echo $name; ?>:</span>
+                <?php
+                    // List the global feed post titles and link to the post permalink.
+                    ?>
+                        <span class="feed"><a href="<?php print $item->get_permalink(); ?>">
+                        <?php print $item->get_title(); ?></a></span>
+                        <?php //print $item->get_description(); ?>
+                      </li>
+                  </div>
+                  
+              <?php endforeach;
+              echo "</ul>";
+              echo $args['after_widget'];
+          
+          $feed->__destruct(); // Do what PHP should be doing on it's own so that there are no memory leaks.
+          unset($item); 
+          unset($feed); 
+          
+          //echo "Memory usage: " . number_format(memory_get_usage()); 
+      }
+  
   function register(){
-    register_sidebar_widget('Widget name', array('Widget_name', 'widget'));
-    register_widget_control('Widget name', array('Widget_name', 'control'));
+    register_sidebar_widget('U! Network Feed', array('network_feed_widget', 'widget'));
+    register_widget_control('U! Network Feed', array('network_feed_widget', 'control'));
   }
 }
 
 function control(){
-  $data = get_option('widget_name');
-  ?>
-  <p><label>Option 1<input name="widget_name_option1"
-type="text" value="<?php echo $data['option1']; ?>" /></label></p>
-  <p><label>Option 2<input name="widget_name_option2"
-type="text" value="<?php echo $data['option2']; ?>" /></label></p>
-  <?php
-   if (isset($_POST['widget_name_option1'])){
-    $data['option1'] = attribute_escape($_POST['widget_name_option1']);
-    $data['option2'] = attribute_escape($_POST['widget_name_option2']);
-    update_option('widget_name', $data);
-  }
+    $data = get_option('network_feed_widget');
+    ?>
+        <p><label>Option 1<input name="network_feed_widget_option1"
+        type="text" value="<?php echo $data['option1']; ?>" /></label></p>
+        <p><label>Option 2<input name="network_feed_widget_option2"
+        type="text" value="<?php echo $data['option2']; ?>" /></label></p>
+    <?php
+      if (isset($_POST['network_feed_widget_option1'])){
+        $data['option1'] = attribute_escape($_POST['network_feed_widget_option1']);
+        $data['option2'] = attribute_escape($_POST['network_feed_widget_option2']);
+        update_option('network_feed_widget', $data);
+      }
 }
 
 ?>
