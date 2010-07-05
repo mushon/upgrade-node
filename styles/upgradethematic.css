@@ -688,9 +688,9 @@ Tag Cloud
 	color:#909090;
 	float:left;
 	font-size:11px;
-	margin-bottom:3px;
+	line-height:18px;
+	margin-bottom:5px;
 	padding:3px 7px 2px 5px;
-	line-height: 16px;
 }
 
 /*-----------------------------
@@ -865,7 +865,7 @@ Other
 	/*border-bottom: 2px dotted #BEBEBE !important;*/
 	font-size:12px;
 	margin-left:-25px;
-	padding:5px;
+	padding: 6px 5px;
 	width:180px;
 }
 .feedcontent li{

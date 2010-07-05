@@ -14,7 +14,7 @@ function childtheme_sidebars_init() {
 
 // Register the New Footer Sidebar
 register_sidebar(array(
-    
+
 // Title for the Widget Dashboard
 'name' => 'New Footer Sidebar',
 
@@ -104,71 +104,10 @@ function childtheme_scripts() {?>
     <?php }
 add_action('wp_head', 'childtheme_scripts');
 
-/*
-?><script type="text/javascript">
-  //<![CDATA[
-  var mmap=new GMap2(document.getElementById("map"),{draggableCursor: 'crosshair', draggingCursor: 'move'});
-    mmap.setCenter(new GLatLng(0,0),2);
-    mmap.addControl(new GLargeMapControl());
-    mmap.addControl(new GMapTypeControl());
-    mmap.enableScrollWheelZoom();
-    mmap.enableDoubleClickZoom();
-    mmap.enableContinuousZoom();
-  var proxy = "/cgi-bin/proxy.php?"
-  var urls = ["http://ws.geonames.org/rssToGeoRSS?feedUrl=http://feeds.reuters.com/reuters/technologyNews","http://ws.geonames.org/rssToGeoRSS?feedUrl=http://feeds.reuters.com/reuters/domesticNews","http://ws.geonames.org/rssToGeoRSS?feedUrl=http://feeds.reuters.com/reuters/topNews","http://ws.geonames.org/rssToGeoRSS?feedUrl=http://feeds.reuters.com/reuters/internetNews"];
-  var exml = new GeoXml("exml", mmap, urls, {sidebarid:"the_side_bar",makedescription:true,iwheight:180});
-  exml.parse(["Technological News"," US News","Top News","Internet Tech"]);
-  //]]>
-</script><?php
-*/
-/*
-?><script>
-  //<![CDATA[
-var icon = new GIcon(G_DEFAULT_ICON,"building_yellow.png");
-    icon.iconSize = new GSize(17, 24);
-    icon.shadowSize = new GSize(11, 21);
-    icon.iconAnchor = new GPoint(3, 17);
-    icon.infoWindowAnchor = new GPoint(3, 1);
-
-var ricon = new GIcon(icon,"building_red.png");
-
-    var mmap=new GMap2(document.getElementById("map"),{draggingCursor: 'move'});
-    mmap.setCenter(new GLatLng(31.1,108.5),2);
-    mmap.addControl(new GLargeMapControl());
-    mmap.addControl(new GMapTypeControl());
-    mmap.enableScrollWheelZoom();
-    mmap.enableDoubleClickZoom();
-    mmap.enableContinuousZoom();
-var proxy = "/cgi-bin/proxy.php?";
-
-//var gdacs = "http://www.gdacs.org/xml/RSSFL2.xml";
-//var gdacs = "http://feeds.feedburner.com/RsoeEdis-EmergencyAndDisasterInformation?format=xml";
-//var gdacs = "http://feedproxy.feedburner.com/RsoeEdis-EmergencyAndDisasterInformation?format=xml";
-//var gdacs = "http://feedproxy.feedburner.com/RsoeEdis-VolcanoMonitoring?format=xml";
-///var yahoohurr ="http://rss.news.yahoo.com/rss/hurricanes";
-var gdacsfl = "http://dma.jrc.it/services/gdas/fl/rss.asp?alertscore=3";
-//var gdacsvol = "http://www.gdacs.org/xml/rssvo_si.xml";
-var eq25url = "http://earthquake.usgs.gov/eqcenter/catalogs/eqs7day-M2.5.xml";
-var eq5url = "http://earthquake.usgs.gov/eqcenter/catalogs/eqs7day-M5.xml";
-
-//var path = [yahoohurr,gdacsfl,gdacsvol,eq25url,eq5url];
-//var mb = document.getElementById('messager');
-//exml.parse(["Yahoo Hurricanes","GDACS Floods","GDACS Volcanoes","Earthquake >2.5","Earthquake >5"]);
-var exml = new GeoXml("exml", mmap,"http://www.gdacs.org/xml/gdacs.kml", {sidebarid:"the_side_bar", iwwidth:520, allfoldersopen:false, iconFromDescription:false, domouseover:false});
-
-    exml.parse("GDACS Floods");
-var exml1 = new GeoXml("exml1", mmap, eq25url, {sidebarid:"the_side_bar", allfoldersopen:false, iconFromDescription:false, domouseover:false, baseicon:icon});
-    exml1.parse("Eathquakes > 2.5");
-var exml2 = new GeoXml("exml2", mmap, eq5url, {sidebarid:"the_side_bar", allfoldersopen:false, iconFromDescription:false, domouseover:false, baseicon:ricon});
-    exml2.parse("Earth Quakes > 5");
-  //]]>
-</script><?php
-*/
-
 
 // Add gmap divs and calling the Geo Mash Up map.
 function gmap_div () {
-  ?><body class="<?php thematic_body_class() ?> <?php lang_dir() ?>" onload="load()" onunload="GUnload()">
+  ?><!--<body class="<?php //thematic_body_class() ?> <?php //lang_dir() ?>" onload="load()" onunload="GUnload()">-->
   <div id="map">
       <div id="gmap">
       <?php echo GeoMashup::map('height=325&width=100%&add_overview_control=false&add_map_type_control=false');?>
@@ -750,6 +689,7 @@ function feed_insert_node_info() {
   print "<upgrade:nodeColorDark>#".node_color_dark()."</upgrade:nodeColorDark>\n";
   print "<upgrade:nodeColorText>#".node_color_text()."</upgrade:nodeColorText>\n";
   print "<upgrade:nodeThemeVersion>".$THEME_VERSION."</upgrade:nodeThemeVersion>\n";
+  print "<upgrade:nodeMarker>".bloginfo('stylesheet_directory')."/styles/images/icon.png</upgrade:nodeMarker>\n";
 }
 
 // Add Upgrade namespace.
@@ -920,6 +860,10 @@ register_deactivation_hook( __FILE__, array('network_feed_widget', 'deactivate')
                 'http://wowm.org/uz/',
                 'http://turbulence.org/upgrade_boston/',
                 'http://www.upgrade-berlin.net/',
+                'http://www.upgradesaopaulo.com.br/arte-novas-midias/',
+                'http://digiwaukee.net/upgrade/',
+                'http://www.upgrade.artapsu.com/',
+                'http://upgrade.eyebeam.org/',
                 'http://upgradechicago.org/'));
               
               // Initialize the feed so that we can use it.
@@ -927,7 +871,7 @@ register_deactivation_hook( __FILE__, array('network_feed_widget', 'deactivate')
               
               $feed->handle_content_type();
                 echo "<ul>";
-                foreach ($feed->get_items(0,7) as $item):
+                foreach ($feed->get_items(0,20) as $item):
                 
                 // Call the custom Upgrade tags within the feeds (we must also call the original feed from which the data is being pulled)
                 $nodename = $item->get_feed()->get_channel_tags('http://upgrade.eyebeam.org/upgrade', 'nodeName');
@@ -941,6 +885,9 @@ register_deactivation_hook( __FILE__, array('network_feed_widget', 'deactivate')
                 
                 $nodecolortext = $item->get_feed()->get_channel_tags('http://upgrade.eyebeam.org/upgrade', 'nodeColorText');
                 $text = $nodecolortext[0]['data'];
+                
+                $nodemarker = $item->get_feed()->get_channel_tags('http://upgrade.eyebeam.org/upgrade', 'nodeMarker');
+                $marker = $nodemarker[0]['data'];
                 
                 // Finally, echo the custom data and place it the widget.
                 ?>

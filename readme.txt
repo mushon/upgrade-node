@@ -1,11 +1,18 @@
-Use these theme files to start your Thematic Child Theme development. 
-Rename and move this entire folder to the root level of wp-content/themes 
-alongside Thematic and activate your new Thematic Child Theme like any 
-other WordPress theme.
+This is for testing purposes only. Theme is currently under development.
 
-Good luck!
+Use these theme files to start your Upgrade! Network website.
+Move this entire folder to the root level of wp-content/themes
+and activate this theme like any other WordPress theme.
 
---
-Ian Stewart
-ian@themeshaper.com
-http://themeshaper.com/
+For this theme you will need to download extra plugins:
+Install these into the WP plugins folder.
+
+Simple Pie Core Plugin: http://wordpress.org/extend/plugins/simplepie-core/
+Simple Pie Plugin for WP: http://wordpress.org/extend/plugins/simplepie-plugin-for-wordpress/
+
+Geo-Mashup Plugin: http://code.google.com/p/wordpress-geo-mashup/
+Geo-Mashup-Custom Plugin: http://code.google.com/p/wordpress-geo-mashup/downloads/list
+!Important: In the upgrade_node theme folder there is a subfolder titled "Copy contents to geo-mashup-custom plugin folder"
+These files must be copied to the custom mashup folder for the map to work.
+
+For updated files: http://github.com/thisisangelng/upgrade-node

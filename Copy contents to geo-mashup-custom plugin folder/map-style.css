@@ -1,0 +1,101 @@
+/**
+ * Default map styles.
+ *
+ * Don't modify this file! It will be overwritten by upgrades.
+ * 
+ * Instead, copy this file to your theme directory, 
+ * or info-window.php in the Geo Mashup Custom plugin directory, if you have that 
+ * installed. Those files take precedence over this one.
+ */
+
+/* Post date and tags/categories */
+.meta {
+  font-size:60%;
+  line-height: 210%;
+}
+  
+.meta .blogdate {
+  font-style: normal;
+  text-transform: uppercase;
+}
+
+/* Info window */
+.locationinfo {
+  font-size:70%;
+  overflow:auto;
+  width:320px;
+  height:150px;
+}
+  
+.user-location-info {
+  font-size:70%;
+  overflow:auto;
+  width:150px;
+  height:80px;
+}
+  
+.comment-location-info {
+  font-size:70%;
+  overflow:auto;
+  width:200px;
+  height:140px;
+}
+  
+.info-window-max {
+  font-size:70%;
+  overflow:auto;
+}
+
+/* Title link style */
+.locationinfo h2 a, .info-window-max h2 a {
+  font-family: Arial, Helvetica Neue, Verdana, Sans-Serif;
+  text-decoration:none;
+  margin:0;
+  padding:0;
+  color: #000;
+  margin-left: 15px;
+} 
+
+/* Excerpt */
+.storycontent {
+  font-family: Arial, Helvetica Neue, Verdana, Sans-Serif;
+  padding: 10px 0;
+  border-bottom: 2px dotted #bebebe;
+  min-height: 60px;
+  text-align: left;
+  margin-left: 15px;
+  margin-top: -20px;
+}
+
+span.cat-links a{
+	padding: 1px 5px 1px 15px;
+	background: #bebebe;
+	text-transform: uppercase;
+	color: #fff;
+	text-decoration: none;
+    font-weight: bold;
+    font-family: Arial, Helvetica Neue, Verdana, Sans-Serif;
+    font-size: 9px;
+}
+
+span.edit-link a{
+	padding: 0 3px;
+}
+
+span.event-time{
+	padding: 1px 5px 1px 15px;
+	background: #bebebe;
+	color:rgba(0, 0, 0, 0.5);
+	font-weight: bold;
+    font-family: Arial, Helvetica Neue, Verdana, Sans-Serif;
+    font-size: 9px;
+}
+
+span.event-loc{
+	padding: 1px 5px 1px 15px;
+	background: #bebebe;
+	color:rgba(0, 0, 0, 0.5);
+	font-weight: bold;
+    font-family: Arial, Helvetica Neue, Verdana, Sans-Serif;
+    font-size: 9px;
+}
