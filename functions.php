@@ -11,25 +11,6 @@
 // Clean up the Dashboard
 // Removing and adding thematic sidebars
 function childtheme_sidebars_init() {
-
-// Register the New Footer Sidebar
-register_sidebar(array(
-
-// Title for the Widget Dashboard
-'name' => 'New Footer Sidebar',
-
-// ID for the XHTML Markup
-'id' => 'new-footer-sidebar',
-
-// Description for the Widget Dashboard Box
-'description' => __('This widget area shows up above the footer.', 'thematic'),
-
-// Do not edit these. It keeps Headers and lists consistent for Thematic
-'before_widget' => thematic_before_widget(),
-'after_widget' => thematic_after_widget(),
-'before_title' => thematic_before_title(),
-'after_title' => thematic_after_title(),
-));
  
 // Unregister and sidebars you don't need based on its ID.
 // For a full list of Thematic sidebar IDs, look at /thematc/library/extensions/widgets-extensions.php
@@ -41,6 +22,9 @@ unregister_sidebar('single-insert');
 unregister_sidebar('single-bottom');
 unregister_sidebar('page-top');
 unregister_sidebar('page-bottom');
+unregister_sidebar('1st-subsidiary-aside');
+unregister_sidebar('2nd-subsidiary-aside');
+unregister_sidebar('3rd-subsidiary-aside');
 }
 
 // When WP initiates, add the above settings
@@ -385,7 +369,6 @@ function upgrades_theme_page() {
 ?>
 <div class='wrap'>
 	<h2><?php _e('Customize settings for your node'); ?></h2>
-	
 	
 	<div id="nonJsForm">
 			<form method="post" action="">				
@@ -734,99 +717,6 @@ add_action('edit_form_advanced', 'upgrade_event_form');
 add_action('save_post', 'upgrade_save_post');
 
 
-// The network feed is parsed below in widget_netfeed
-// This array will hold the RSS items that have georss info 
-// so that the Google Map can add them in the theme.
-$netFeed = array();
-
-function parse_net_feed() {
-	global $netFeed;
-	//define('MAGPIE_CACHE_DIR', '/tmp/magpie_cache');
-	require_once(dirname(__FILE__).'/../../../wp-includes/rss.php');
-	$url = "http://theupgrade.net/feeds.xml";
-	$rss = fetch_rss($url);
-	$netFeed = $rss->items;
-}
-parse_net_feed();
-
-function get_net_feed() {
-	global $netFeed;
-	return $netFeed;
-}
-
-// This function prints the sidebar widget--the cool stuff!
-function widget_netfeed($args) {
-
-	global $netFeed;
-
-    // $args is an array of strings which help your widget
-    // conform to the active theme: before_widget, before_title,
-    // after_widget, and after_title are the array keys.
-    extract($args);
-
-    // Collect our widget's options, or define their defaults.
-    $options = get_option('widget_netfeed');
-    $title = empty($options['title']) ? 'Latest Global Events' : $options['title'];
-
-     // It's important to use the $before_widget, $before_title,
-     // $after_title and $after_widget variables in your output.
-    echo $before_widget;
-    echo $before_title . $title . $after_title;
-  	echo "<ul>";
-   	//echo "Channel Title: " . $rss->channel['title'] . "<p>";
-	foreach ($netFeed as $item):
-	?>
-		<li>
-		<div class="net_wrap" style="border-color:<?=$item['nodecolordark']?>;"></span><a href="<?=$item['link']?>" title="<?=$item['summary']?>" target="blank" style="color:<?=$item['nodecolortext']?>; border-color: 2px solid <?=$item['nodecolorlight']?>">
-		<span><!--<? echo date("M dS",$item['date_timestamp'])?>--> U! <?=$item['nodename']?>:</span><br />
-		<?=$item['title']?></a></div>
-		</li>
-	<?php endforeach;
-	echo "</ul>";
-    echo $after_widget;
-}
-
-// This is the function that outputs the form to let users edit
-// the widget's title and so on. It's an optional feature, but
-// we'll use it because we can!
-function widget_netfeed_control() {
-
-    // Collect our widget's options.
-    $options = get_option('widget_netfeed');
-
-    // This is for handing the control form submission.
-    if ( $_POST['netfeed-submit'] ) {
-        // Clean up control form submission options
-        $newoptions['title'] = strip_tags(stripslashes($_POST['netfeed-title']));
-    }
-
-    // If original widget options do not match control form
-    // submission options, update them.
-    if ( $options != $newoptions ) {
-        $options = $newoptions;
-        update_option('widget_netfeed', $options);
-    }
-
-    // Format options as valid HTML. Hey, why not.
-    $title = htmlspecialchars($options['title'], ENT_QUOTES);
-
-	// The HTML below is the control form for editing options.
-	?>
-	    <div>
-	    <label for="netfeed-title" style="line-height:35px;display:block;">Widget title: <input type="text" id="netfeed-title" name="netfeed-title" value="<?php echo $title; ?>" /></label>
-	    <input type="hidden" name="netfeed-submit" id="netfeed-submit" value="1" />
-	    </div>
-	<?php
-	// end of widget_netfeed_control()
-}
-
-// This registers the widget. About time.
-register_sidebar_widget('Upgrade! Network Feed', 'widget_netfeed');
-
-// This registers the (optional!) widget control form.
-register_widget_control('Upgrade! Network Feed', 'widget_netfeed_control');
-
-
 // SimplePie RSS U! Network Feed Widget
 error_reporting(E_ALL);
 add_action("widgets_init", array('network_feed_widget', 'register'));
@@ -864,14 +754,19 @@ register_deactivation_hook( __FILE__, array('network_feed_widget', 'deactivate')
                 'http://digiwaukee.net/upgrade/',
                 'http://www.upgrade.artapsu.com/',
                 'http://upgrade.eyebeam.org/',
+                'http://upgrade.okno.be/',
+                'http://www.incident.net/upgradedakar/',
+                'http://www.likenow.org/upgrade/',
                 'http://upgradechicago.org/'));
+              
+              // Set to pull only 2 items per feed
+              $feed->set_item_limit(1);
               
               // Initialize the feed so that we can use it.
               $feed->init();
-              
               $feed->handle_content_type();
                 echo "<ul>";
-                foreach ($feed->get_items(0,20) as $item):
+                foreach ($feed->get_items(0,6) as $item):
                 
                 // Call the custom Upgrade tags within the feeds (we must also call the original feed from which the data is being pulled)
                 $nodename = $item->get_feed()->get_channel_tags('http://upgrade.eyebeam.org/upgrade', 'nodeName');
@@ -906,15 +801,19 @@ register_deactivation_hook( __FILE__, array('network_feed_widget', 'deactivate')
                     </div>
                   </div>
                   
-              <?php endforeach;
+              <?php
+              
+              //$feed->__destruct(); // Do what PHP should be doing on it's own so that there are no memory leaks.
+              //unset($feed);
+              //unset($item);
+              
+              endforeach;
               echo "</ul>";
               echo $args['after_widget'];
-          
-          $feed->__destruct(); // Do what PHP should be doing on it's own so that there are no memory leaks.
-          unset($item); 
-          unset($feed); 
+              
           
           //echo "Memory usage: " . number_format(memory_get_usage()); 
+          
       }
   
   function register(){

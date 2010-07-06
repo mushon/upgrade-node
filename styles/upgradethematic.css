@@ -129,11 +129,20 @@ Header
 	padding: 0;
 }
 
+/*
+#blog-title {
+	background:transparent url(images/upgrade_title.png) no-repeat scroll 0 0;
+	float: left;
+	margin-top: 2px;
+}
+*/
+
 #blog-title a {
 	color:#000000;
 	font-size: 28px;
 	text-decoration:none;
 	text-align: left;
+	/*margin-left: 138px;*/
 }
 
 #blog-title a:active, #blog-title a:hover {
@@ -865,11 +874,11 @@ Other
 	/*border-bottom: 2px dotted #BEBEBE !important;*/
 	font-size:12px;
 	margin-left:-25px;
-	padding: 6px 5px;
+	padding: 4px 5px;
 	width:180px;
 }
 .feedcontent li{
-	border-width: 2px 0 0 0;
+	border-width: 4px 0 0 0;
 	border-style: solid;
 }
 
@@ -885,8 +894,14 @@ Other
 .wrap {
 	border-top: 2px solid;
 	background-color: #F3F3F3;
+	padding-bottom: 3px;
 }
 
+.wrap:hover{
+	background-color: #FFFFFF;
+}
+
+/*
 .feedcontent li:hover {
 	border-width: 6px 0 0 0;
 }
@@ -895,6 +910,7 @@ Other
 	border-top: 3px solid;
 	background-color: #FFFFFF;
 }
+*/
 
 /*-----------------------------
 Footer
