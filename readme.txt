@@ -19,4 +19,7 @@ Geo-Mashup-Custom Plugin: http://code.google.com/p/wordpress-geo-mashup/download
 "Copy contents to geo-mashup-custom plugin folder" These files must be copied to
 the custom mashup folder for the map to work.
 
+WP Multilingual Plugin: http://wpml.org/
+This is the translation plugin that we are using to replace qtranslator.
+
 For updated files visit the Git Repo: http://github.com/thisisangelng/upgrade-node
