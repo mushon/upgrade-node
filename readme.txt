@@ -8,9 +8,10 @@ For this theme you will need to download extra plugins:
 Install these into the WP plugins folder.
 
 Simple Pie Core Plugin: http://wordpress.org/extend/plugins/simplepie-core/
-Simple Pie Plugin for WP: http://wordpress.org/extend/plugins/simplepie-plugin-for-wordpress/
 !Important: This plugin is used for the global events widget. To activate, drag the
 U! Network Feed widget into the primary or secondary aside.
+*Note: This causes the site to load slow. There is a ticket for this problem.
+Don't activate this widget for a normal load time.
 
 Geo-Mashup Plugin: http://code.google.com/p/wordpress-geo-mashup/
 Geo-Mashup-Custom Plugin: http://code.google.com/p/wordpress-geo-mashup/downloads/list

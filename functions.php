@@ -9,7 +9,7 @@
 
 
 // Clean up the Dashboard
-// Removing and adding thematic sidebars
+// Removing unneccesary thematic sidebars
 function childtheme_sidebars_init() {
  
 // Unregister and sidebars you don't need based on its ID.
@@ -483,6 +483,7 @@ function upgrades_theme_page() {
 </div>
 <?php }
 
+
 // Embed styles in header.
 function nodeStyles(){
 	echo "
@@ -672,7 +673,7 @@ function feed_insert_node_info() {
   print "<upgrade:nodeColorDark>#".node_color_dark()."</upgrade:nodeColorDark>\n";
   print "<upgrade:nodeColorText>#".node_color_text()."</upgrade:nodeColorText>\n";
   print "<upgrade:nodeThemeVersion>".$THEME_VERSION."</upgrade:nodeThemeVersion>\n";
-  print "<upgrade:nodeMarker>".bloginfo('stylesheet_directory')."/styles/images/icon.png</upgrade:nodeMarker>\n";
+  //print "<upgrade:nodeMarker>".bloginfo('stylesheet_directory')."/styles/images/icon.png</upgrade:nodeMarker>\n";
 }
 
 // Add Upgrade namespace.
@@ -740,11 +741,16 @@ register_deactivation_hook( __FILE__, array('network_feed_widget', 'deactivate')
           echo 'This is the U! Network Feed for Global Events. Place this widget in the primary or secondary asides.';
       }
       
+      
       function widget($args){
+              // Set up an hourly wp-cron job to cache the feed
+              if ( !wp_next_scheduled('cache_networkfeed') ) {
+              wp_schedule_event( time(), 'hourly', 'cache_networkfeed' ); // hourly, daily and or twicedaily
+              }
           echo $args['before_widget'];
           echo $args['before_title'] . 'Latest Global Events' . $args['after_title'];
           
-              // Use the SP for WP plugin and, through an array, pull multiple rss feeds together.
+              // Use the SimplePie Core through an array, pull multiple rss feeds together.
               // For more information: http://simplepie.org/
               $feed = new SimplePie (array(
                 'http://wowm.org/uz/',
@@ -759,12 +765,15 @@ register_deactivation_hook( __FILE__, array('network_feed_widget', 'deactivate')
                 'http://www.likenow.org/upgrade/',
                 'http://upgradechicago.org/'));
               
-              // Set to pull only 2 items per feed
+              // Set to pull only 1 item per feed
               $feed->set_item_limit(1);
               
               // Initialize the feed so that we can use it.
               $feed->init();
               $feed->handle_content_type();
+              $feed->set_cache_duration(999999999); 
+              $feed->set_timeout(-1);
+                
                 echo "<ul>";
                 foreach ($feed->get_items(0,6) as $item):
                 
@@ -781,10 +790,13 @@ register_deactivation_hook( __FILE__, array('network_feed_widget', 'deactivate')
                 $nodecolortext = $item->get_feed()->get_channel_tags('http://upgrade.eyebeam.org/upgrade', 'nodeColorText');
                 $text = $nodecolortext[0]['data'];
                 
-                $nodemarker = $item->get_feed()->get_channel_tags('http://upgrade.eyebeam.org/upgrade', 'nodeMarker');
-                $marker = $nodemarker[0]['data'];
+                //$nodemarker = $item->get_feed()->get_channel_tags('http://upgrade.eyebeam.org/upgrade', 'nodeMarker');
+                //$marker = $nodemarker[0]['data'];
                 
-                // Finally, echo the custom data and place it the widget.
+                // Add the cron job
+                add_action('cache_networkfeed', 'widget');
+      
+                // Finally, echo the custom data and place it in the widget.
                 ?>
                   <div class="feedcontent">
                     <div class="wrap" style="border-color:<?php echo $dark?>">
@@ -803,24 +815,25 @@ register_deactivation_hook( __FILE__, array('network_feed_widget', 'deactivate')
                   
               <?php
               
-              //$feed->__destruct(); // Do what PHP should be doing on it's own so that there are no memory leaks.
-              //unset($feed);
-              //unset($item);
-              
               endforeach;
               echo "</ul>";
-              echo $args['after_widget'];
               
+              $feed->__destruct(); // Do what PHP should be doing on it's own so that there are no memory leaks.
+              unset($feed);
+              unset($item);
+              
+          echo $args['after_widget'];
           
           //echo "Memory usage: " . number_format(memory_get_usage()); 
-          
+        
       }
-  
-  function register(){
-    register_sidebar_widget('U! Network Feed', array('network_feed_widget', 'widget'));
-    register_widget_control('U! Network Feed', array('network_feed_widget', 'control'));
+      
+    function register() {
+            register_sidebar_widget('U! Network Feed', array('network_feed_widget', 'widget'));
+            register_widget_control('U! Network Feed', array('network_feed_widget', 'control'));
+    }
   }
-}
+
 
 function control(){
     $data = get_option('network_feed_widget');
@@ -836,5 +849,6 @@ function control(){
         update_option('network_feed_widget', $data);
       }
 }
+
 
 ?>
