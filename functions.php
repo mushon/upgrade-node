@@ -35,7 +35,7 @@ add_action( 'init', 'childtheme_sidebars_init',20 );
 function add_wphead() {
 
  // Include main screen styles css
- $content .= "\t";
+ $content = "\t";
  $content .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"";
  $content .= get_bloginfo('stylesheet_directory');
  $content .= '/styles/grid.css';
