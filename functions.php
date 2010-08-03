@@ -7,7 +7,6 @@
 // More ideas can be found on "A Guide To Customizing The Thematic Theme Framework" 
 // http://themeshaper.com/thematic-for-wordpress/guide-customizing-thematic-theme-framework/
 
-
 // Clean up the Dashboard
 // Removing unneccesary thematic sidebars
 function childtheme_sidebars_init() {

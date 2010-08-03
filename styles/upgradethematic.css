@@ -156,7 +156,7 @@ Header
 }
 
 #header{
-	margin-top: 300px;
+	margin-top: 330px;
 }
 
 #feed{
@@ -1035,15 +1035,139 @@ div.sidebars li.page_item, li.page_item ul li{
 	list-style-type:none;
 }
 */
-
+/*
 #lang_sel {
 	margin: 11px 0 -43px 480px;
 	width:200px;
 }
-/*
+
 #lang_sel_footer {
 	border:medium none;
 	margin:-40px 0 30px 680px;
 	width:453px;
 }
 */
+
+div#lang_sel {
+	margin-left:480px;
+	margin-top:-290px;
+	position:absolute;
+	/* hack to correct IE5.5 faulty box model */
+	* html #lang_sel {width:12em; w\idth:12em;}
+}
+
+/* remove all the bullets, borders and padding from the default list styling */
+div#lang_sel ul, div#lang_sel li {
+	padding:0 !important;
+	margin:0 !important;
+	list-style-type:none !important;
+}
+
+div#lang_sel li:before{
+	content:'' !important;
+}
+
+div#lang_sel ul ul {
+	width:149px;
+}
+
+/* float the list to make it horizontal and a relative positon so that you can control the dropdown menu positon */
+div#lang_sel li {
+	float:left;
+	width:149px;
+	position:relative;
+}
+
+/* style the links for the top level */
+div#lang_sel a, div#lang_sel a:link, div#lang_sel a:visited {
+	display:block;
+	/*background: #fcfcfc;*/
+	font-size:12px;
+	text-decoration:none !important;
+	color:#fff;
+	border:1px solid #000;
+	line-height:18px;
+	border-top: 1px solid #e1e1e1;
+	border-right: 1px solid #c8c8c8;
+	border-bottom: 1px solid #bfbfbf;
+	border-left: 1px solid #e1e1e1;
+	padding: 5px 10px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px; /* future proofing */
+	-khtml-border-radius: 5px; /* for old Konqueror browsers */
+	font: normal bold 12px Verdana, sans-serif;
+	}
+	
+/* a hack so that IE5.5 faulty box model is corrected */
+* html #lang_sel a, * html #lang_sel a:link, * html #lang_sel a:visited {width:149px; w\idth:138px;}
+
+/* hide the sub levels and give them a positon absolute so that they take up no room */
+div#lang_sel ul ul {
+	visibility:hidden;
+	position:absolute;
+	height:0;
+	top:25px;
+	left:0;
+	width:149px;
+	border-top:0;
+}
+
+/* another hack for IE5.5 */
+* html #lang_sel ul ul {
+	top:25px;
+	t\op:25px;}
+
+/* style the table so that it takes no ppart in the layout - required for IE to work */
+div#lang_sel table {
+	position:absolute;
+	top:0;
+	left:0;
+	border-collapse:collapse;}
+
+/* style the second level links */
+div#lang_sel ul ul a, div#lang_sel ul ul a:link, div#lang_sel ul ul a:visited {
+	font-weight: normal;
+	/*font-size: 11px;*/
+	background:#eee;
+	color:#000 !important;
+	/*height:auto; line-height:1em; */
+	/*padding:3px 10px;*/
+	border-width:0 1px 1px 1px;
+	-moz-border-radius: 0;
+	-webkit-border-radius: 0;
+	border-radius: 0; /* future proofing */
+	-khtml-border-radius: 0; /* for old Konqueror browsers */
+	}
+/* yet another hack for IE5.5 */
+* html #lang_sel ul ul a, * html #lang_sel ul ul a:visited {width:150px;w\idth:128px;}
+
+/* style the top level hover */
+div#lang_sel a:hover, div#lang_sel ul ul a:hover{color:#000; background:#ccc;}
+div#lang_sel :hover > a, div#lang_sel ul ul :hover > a {color:#000; background:#ccc;}
+
+div#lang_sel a.lang_sel_sel{
+    background:url(../images/nav-arrow-down.png) #fcfcfc right no-repeat;
+    color: #bfbfbf;
+}
+div#lang_sel a.lang_sel_sel:hover{
+    text-decoration: none;
+    /*color:#000;*/
+}
+
+/* make the second level visible when hover on first level list OR link */
+div#lang_sel ul li:hover ul,
+div#lang_sel ul a:hover ul{visibility:visible; }
+
+div#lang_sel ul li img {
+	position: relative;
+	margin: 0;
+	padding: 0;
+	margin-right: -6px;
+	border: 1px solid #bfbfbf;
+	top: 2px;
+}
+
+div#lang_sel ul li ul li img {
+	margin-right: -2px;
+}

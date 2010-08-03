@@ -35,4 +35,7 @@ within your WP directory.
 'WPML Multilingual CMS'
 This is the translation plugin that we are using to replace qtranslator.
 
+'Event Calendar 3'
+This plugin allows you to put a calendar in the sidebars.
+
 For updated files visit the Git Repo: http://github.com/thisisangelng/upgrade-node
