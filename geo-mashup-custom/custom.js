@@ -223,6 +223,7 @@ function customizeGeoMashupMap(mashup) {
   GeoMashup.map.addOverlay(new GGeoXml( 'http://www.upgrade.artapsu.com/?feed=rss2' ));
   // Quick fix to properly center map, must find a way to center to lastest post.
   GeoMashup.map.setCenter( new GLatLng(40.080313,-47.636719), 3 );
+  
 }
 
 // Remove maximize info window option
