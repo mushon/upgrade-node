@@ -744,6 +744,7 @@ register_deactivation_hook( __FILE__, array('network_feed_widget', 'deactivate')
       
       function widget($args){
               // Set up an hourly wp-cron job to cache the feed
+              // Currently this creates a job but does not help the feed load any faster.
               if ( !wp_next_scheduled('cache_networkfeed') ) {
               wp_schedule_event( time(), 'hourly', 'cache_networkfeed' ); // hourly, daily and or twicedaily
               }
@@ -771,12 +772,12 @@ register_deactivation_hook( __FILE__, array('network_feed_widget', 'deactivate')
               // Initialize the feed so that we can use it.
               $feed->init();
               $feed->handle_content_type();
-              $feed->set_cache_duration(999999999); 
-              $feed->set_timeout(-1);
-                
+              //$feed->set_cache_duration(999999999); 
+              //$feed->set_timeout(-1);
+              
                 echo "<ul>";
                 foreach ($feed->get_items(0,6) as $item):
-                
+              
                 // Call the custom Upgrade tags within the feeds (we must also call the original feed from which the data is being pulled)
                 $nodename = $item->get_feed()->get_channel_tags('http://upgrade.eyebeam.org/upgrade', 'nodeName');
                 $name = $nodename[0]['data'];
@@ -793,9 +794,9 @@ register_deactivation_hook( __FILE__, array('network_feed_widget', 'deactivate')
                 //$nodemarker = $item->get_feed()->get_channel_tags('http://upgrade.eyebeam.org/upgrade', 'nodeMarker');
                 //$marker = $nodemarker[0]['data'];
                 
-                // Add the cron job
+                // Activate the cron job
                 add_action('cache_networkfeed', 'widget');
-      
+              
                 // Finally, echo the custom data and place it in the widget.
                 ?>
                   <div class="feedcontent">
@@ -808,7 +809,6 @@ register_deactivation_hook( __FILE__, array('network_feed_widget', 'deactivate')
                         <span class="feed">
                         <a href="<?php print $item->get_permalink(); ?>" style="color:<?php echo $text ?>">
                         <?php print $item->get_title(); ?></a></span>
-                        <?php //print $item->get_description(); ?>
                       </li>
                     </div>
                   </div>
@@ -821,7 +821,7 @@ register_deactivation_hook( __FILE__, array('network_feed_widget', 'deactivate')
               $feed->__destruct(); // Do what PHP should be doing on it's own so that there are no memory leaks.
               unset($feed);
               unset($item);
-              
+            
           echo $args['after_widget'];
           
           //echo "Memory usage: " . number_format(memory_get_usage()); 

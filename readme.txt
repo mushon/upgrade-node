@@ -1,6 +1,12 @@
-This is for testing purposes only. Theme is currently under development.
+IMPORTANT: This is for testing purposes only. Theme is currently under development.
+
 
 Use these theme files to start your Upgrade! Network website.
+
+This is a childtheme of the Thematic Theme Framework. Please install the
+the framework before activating the Upgrade Childtheme.
+Found here: http://themeshaper.com/
+
 Move this entire folder to the root level of wp-content/themes
 and activate this theme like any other WordPress theme.
 

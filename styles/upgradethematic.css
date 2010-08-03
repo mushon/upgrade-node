@@ -11,7 +11,6 @@ Upgrade International Theme
 General 
 -----------------------------*/
 
-
 body {
 	background: #f3f3f3 url(images/bg_tile.gif) repeat-y center;
 	color: #444;
@@ -27,6 +26,10 @@ a, a:hover, .meta a:hover, .edit-link a:hover  {
 a:hover{
 	background-color: #fff;
 	text-decoration: underline;
+}
+
+.aside a:active, .aside a:hover {
+	color: #909090;
 }
 
 #wrapper{
@@ -613,7 +616,7 @@ Sidebar
 
 .aside a {
 	text-decoration: none;
-	padding: 5px 0;
+	padding: 3px 0;
 	
 }
 
@@ -691,16 +694,16 @@ div#wp-calendar table.nav #prev{
 Tag Cloud
 -----------------------------*/
 
-.widget_tag_cloud a{
-	background:#FFFFFF url(images/tag-widget_bg.png) scroll right bottom;
-	border-bottom: 1px solid #c5c4c4;
+.widget_tag_cloud a {
+	background:#FFFFFF url(images/tag-widget_bg.png) repeat scroll left bottom;
+	/*border-bottom:1px solid #C5C4C4;*/
 	color:#909090;
 	float:left;
-	font-size:11px;
-	line-height:18px;
-	margin-bottom:5px;
-	padding:3px 7px 2px 5px;
+	line-height:16px;
+	margin-bottom:3px;
+	padding: 5px 4px 6px 8px;
 }
+
 
 /*-----------------------------
 Network feed
