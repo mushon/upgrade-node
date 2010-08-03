@@ -29,7 +29,6 @@ unregister_sidebar('3rd-subsidiary-aside');
 // When WP initiates, add the above settings
 add_action( 'init', 'childtheme_sidebars_init',20 );
 
-
 // Add Blueprint CSS and WP Geo into wp_head
 function add_wphead() {
 
@@ -80,7 +79,6 @@ function add_wphead() {
  
 add_action ('wp_head', 'add_wphead');
 
-
 // Add gmap divs and calling the Geo Mash Up map.
 function gmap_div () {
   ?><!--<body class="<?php //thematic_body_class() ?> <?php //lang_dir() ?>" onload="load()" onunload="GUnload()">-->
@@ -100,7 +98,6 @@ function gmap_div () {
 }
 add_action (thematic_aboveheader, gmap_div);
 
-
 // Determine if the language requires RTL settings (using the qTranslate plugin):
 function lang_dir() {
 	if ( function_exists('qtrans_getLanguage')) {
@@ -112,7 +109,6 @@ function lang_dir() {
 		}
 	}
 }
-
 
 /*
 // Creates the links for the translations of the post. use either 'text', 'image', 'both' or 'dropdown':
@@ -165,7 +161,6 @@ function childtheme_search_value() {
   return " ";
 }
 add_filter('search_field_value', 'childtheme_search_value');
-
 
 // Filtering the thematic postheader
 // If not on a page show all content, else remove category and tags
@@ -244,7 +239,6 @@ function upgrade_postfooter(){
   <?php
 }
 add_filter(thematic_postfooter, upgrade_postfooter);
-
 
 // Dashboard Node Settings
 // Additional Node admin page for the Upgrade template
@@ -474,7 +468,6 @@ function upgrades_theme_page() {
 		</div>
 </div>
 <?php }
-
 
 // Embed styles in header.
 function nodeStyles(){
@@ -708,139 +701,6 @@ add_action('rdf_ns', 'feed_insert_namespace');
 add_action('rss2_ns', 'feed_insert_namespace');
 add_action('edit_form_advanced', 'upgrade_event_form');
 add_action('save_post', 'upgrade_save_post');
-
-
-// SimplePie RSS U! Network Feed Widget
-error_reporting(E_ALL);
-add_action("widgets_init", array('network_feed_widget', 'register'));
-register_activation_hook( __FILE__, array('network_feed_widget', 'activate'));
-register_deactivation_hook( __FILE__, array('network_feed_widget', 'deactivate'));
-  class network_feed_widget {
-      function activate(){
-          $data = array( 'option1' => 'Default value' ,'option2' => 55);
-          if ( ! get_option('network_feed_widget')){
-            add_option('network_feed_widget' , $data);
-          } else {
-            update_option('network_feed_widget' , $data);
-          }
-      }
-      
-      function deactivate(){
-          delete_option('network_feed_widget');
-      }
-      
-      function control(){
-          echo 'This is the U! Network Feed for Global Events. Place this widget in the primary or secondary asides.';
-      }
-      
-      
-      function widget($args){
-              // Set up an hourly wp-cron job to cache the feed
-              // Currently this creates a job but does not help the feed load any faster.
-              if ( !wp_next_scheduled('cache_networkfeed') ) {
-              wp_schedule_event( time(), 'hourly', 'cache_networkfeed' ); // hourly, daily and or twicedaily
-              }
-          echo $args['before_widget'];
-          echo $args['before_title'] . 'Latest Global Events' . $args['after_title'];
-          
-              // Use the SimplePie Core through an array, pull multiple rss feeds together.
-              // For more information: http://simplepie.org/
-              $feed = new SimplePie (array(
-                'http://wowm.org/uz/',
-                'http://turbulence.org/upgrade_boston/',
-                'http://www.upgrade-berlin.net/',
-                'http://www.upgradesaopaulo.com.br/arte-novas-midias/',
-                'http://digiwaukee.net/upgrade/',
-                'http://www.upgrade.artapsu.com/',
-                'http://upgrade.eyebeam.org/',
-                'http://upgrade.okno.be/',
-                'http://www.incident.net/upgradedakar/',
-                'http://www.likenow.org/upgrade/',
-                'http://upgradechicago.org/'));
-              
-              // Set to pull only 1 item per feed
-              $feed->set_item_limit(1);
-              
-              // Initialize the feed so that we can use it.
-              $feed->init();
-              $feed->handle_content_type();
-              //$feed->set_cache_duration(999999999); 
-              //$feed->set_timeout(-1);
-              
-                echo "<ul>";
-                foreach ($feed->get_items(0,6) as $item):
-              
-                // Call the custom Upgrade tags within the feeds (we must also call the original feed from which the data is being pulled)
-                $nodename = $item->get_feed()->get_channel_tags('http://upgrade.eyebeam.org/upgrade', 'nodeName');
-                $name = $nodename[0]['data'];
-                
-                $nodecolordark = $item->get_feed()->get_channel_tags('http://upgrade.eyebeam.org/upgrade', 'nodeColorDark');
-                $dark = $nodecolordark[0]['data'];
-                
-                $nodecolorlight = $item->get_feed()->get_channel_tags('http://upgrade.eyebeam.org/upgrade', 'nodeColorLight');
-                $light = $nodecolorlight[0]['data'];
-                
-                $nodecolortext = $item->get_feed()->get_channel_tags('http://upgrade.eyebeam.org/upgrade', 'nodeColorText');
-                $text = $nodecolortext[0]['data'];
-                
-                //$nodemarker = $item->get_feed()->get_channel_tags('http://upgrade.eyebeam.org/upgrade', 'nodeMarker');
-                //$marker = $nodemarker[0]['data'];
-                
-                // Activate the cron job
-                add_action('cache_networkfeed', 'widget');
-              
-                // Finally, echo the custom data and place it in the widget.
-                ?>
-                  <div class="feedcontent">
-                    <div class="wrap" style="border-color:<?php echo $dark?>">
-                      <li style="border-color:<?php echo $text?>; padding: 0 6px">
-                        <span class="nodename" style="color:<?php echo $text ?>">U! <?php echo $name; ?>:</span>
-                <?php
-                    // List the global feed post titles and link to the post permalink.
-                    ?>
-                        <span class="feed">
-                        <a href="<?php print $item->get_permalink(); ?>" style="color:<?php echo $text ?>">
-                        <?php print $item->get_title(); ?></a></span>
-                      </li>
-                    </div>
-                  </div>
-                  
-              <?php
-              
-              endforeach;
-              echo "</ul>";
-              
-              $feed->__destruct(); // Do what PHP should be doing on it's own so that there are no memory leaks.
-              unset($feed);
-              unset($item);
-            
-          echo $args['after_widget'];
-          
-          //echo "Memory usage: " . number_format(memory_get_usage()); 
-        
-      }
-      
-    function register() {
-            register_sidebar_widget('U! Network Feed', array('network_feed_widget', 'widget'));
-            register_widget_control('U! Network Feed', array('network_feed_widget', 'control'));
-    }
-  }
-
-
-function control(){
-    $data = get_option('network_feed_widget');
-    ?>
-        <p><label>Option 1<input name="network_feed_widget_option1"
-        type="text" value="<?php echo $data['option1']; ?>" /></label></p>
-        <p><label>Option 2<input name="network_feed_widget_option2"
-        type="text" value="<?php echo $data['option2']; ?>" /></label></p>
-    <?php
-      if (isset($_POST['network_feed_widget_option1'])){
-        $data['option1'] = attribute_escape($_POST['network_feed_widget_option1']);
-        $data['option2'] = attribute_escape($_POST['network_feed_widget_option2']);
-        update_option('network_feed_widget', $data);
-      }
-}
 
 
 ?>
