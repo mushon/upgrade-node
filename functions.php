@@ -81,13 +81,6 @@ function add_wphead() {
  
 add_action ('wp_head', 'add_wphead');
 
-// Call geoxml.js
-function childtheme_scripts() {?>
-	<?php echo "\n\t" ?><script type="text/javascript" charset="utf-8" src="<?php bloginfo('stylesheet_directory'); ?>/styles/geoxml.js"></script><?php echo "\n" ?>
-    <?php echo "\n\t" ?><script type="text/javascript" charset="utf-8" src="<?php bloginfo('stylesheet_directory'); ?>/styles/json.js"></script><?php echo "\n" ?>
-    <?php }
-add_action('wp_head', 'childtheme_scripts');
-
 
 // Add gmap divs and calling the Geo Mash Up map.
 function gmap_div () {

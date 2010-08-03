@@ -695,13 +695,13 @@ Tag Cloud
 -----------------------------*/
 
 .widget_tag_cloud a {
-	background:#FFFFFF url(images/tag-widget_bg.png) repeat scroll left bottom;
+	background:#FFFFFF url(images/tag-widget_bg.png) repeat scroll right bottom;
 	/*border-bottom:1px solid #C5C4C4;*/
 	color:#909090;
 	float:left;
 	line-height:16px;
 	margin-bottom:3px;
-	padding: 5px 4px 6px 8px;
+	padding: 5px 6px 6px 4px;
 }
 
 
