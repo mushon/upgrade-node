@@ -23,8 +23,8 @@ Click 'Add New' then search and install the following WP plugins:
 
 'SimplePie Core'
 !Important: This plugin is used for the global events plugin and widget. To
-activate manually copy networkfeed.php located this theme folder to
-wp-content>plugins folder. Activate the plugin the the WP Dashboard then go to
+activate manually copy networkfeed.php located in this theme folder to
+wp-content>plugins folder. Activate the plugin through the WP Dashboard then go to
 the widget tab and drag the U! Network Feed widget into the primary or secondary
 aside.
 *Note: This causes the site to load slow. There is a ticket for this problem.
