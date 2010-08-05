@@ -16,29 +16,34 @@ on your WP Dashboard and install the Thematic Theme Framework.
 Move this entire folder (upgrade_node) to the root level of wp-content/themes
 and activate this theme like any other WordPress theme.
 
-For this theme you will need to download extra plugins:
+In addition, for this theme you will need to download some extra plugins:
 Install these through the 'Plugins' tab on your WP Dashboard.
 
 Click 'Add New' then search and install the following WP plugins:
 
-'SimplePie Core'
-!Important: This plugin is used for the global events plugin and widget. To
-activate manually copy networkfeed.php located in this theme folder to
-wp-content>plugins folder. Activate the plugin through the WP Dashboard then go to
-the widget tab and drag the U! Network Feed widget into the primary or secondary
-aside.
+1. 'SimplePie Core'
+
+!Important: This plugin is used for the Global Network Feed Widget. To
+activate, access the Widget tab in your WP dashboard and drag the U! Global
+Network Feed widget into the primary or secondary aside.
+
 *Note: This causes the site to load slow. There is a ticket for this problem.
 Don't activate this widget for a normal load time.
 
-'Geo-Mashup'
+2. 'Geo-Mashup'
+
 !Important: In the upgrade_node theme folder there is a subfolder titled
 'geo-mashup-custom' This folder must be manually moved into wp-content>plugins folder
 within your WP directory.
 
-'WPML Multilingual CMS'
+3. 'WPML Multilingual CMS'
 This is the translation plugin that we are using to replace qtranslator.
 
-'Event Calendar 3'
+4. 'Event Calendar 3'
 This plugin allows you to put a calendar in the sidebars.
+
+
+
+
 
 For updated files visit the Git Repo: http://github.com/thisisangelng/upgrade-node

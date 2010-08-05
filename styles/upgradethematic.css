@@ -991,7 +991,7 @@ li.page_item{
 	margin-left: -5px;
 }
 
-li.page_item a{
+li.page_item a, li.page_item a:visited {
 	background: #bdbebf;
 	padding: 2px 8px;
 	color: #fff;
@@ -1000,12 +1000,12 @@ li.page_item a{
 	font-size: 9pt;
 }
 
-li.page_item a:hover{
+li.page_item a:hover, li.page_item a:active {
 	background: #959595;
 	color: #fff;
 }
 
-li.page_item li a{
+li.page_item li a, li.page_item li a:visited {
 	background: #f3f3f3;
 	padding: 2px 4px;
 	color: #959595;
@@ -1016,7 +1016,7 @@ li#pages li.page_item ul{
 	margin-left: 16px;
 }
 
-li.page_item li a:hover{
+li.page_item li a:hover, li.page_item li a:active {
 	color: #666;
 	background: #f3f3f3;
 }

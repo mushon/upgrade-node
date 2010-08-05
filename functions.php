@@ -368,8 +368,8 @@ function upgrades_theme_page() {
 					<th scope="row"><label for="upgrades_node_name"><?php _e('Upgrade node codename:');?></label></th>
 					<td><input name="upgrades_node_name" type="text" id="upgrades_node_name" 
 						value="<?php echo attribute_escape(upgrades_node_name()); ?>" size="64" />
-					<br /><span>This is used for identifying the different feeds. 
-					For example: &#214;stersund-Stockholm could be simply 'stockholm' four these purposes </span>
+					<br /><span>This is used for identifying the different feeds (ie. for the Global Network Feed Widget). 
+					For example: &#214;stersund-Stockholm could be simply 'stockholm' for these purposes </span>
 					</td>
 					</tr>
 					
@@ -412,7 +412,7 @@ function upgrades_theme_page() {
 					<th scope="row"><label for="node_color_dark"><?php _e('Node color dark:');?></label></th>
 					<td>#<input name="node_color_dark" type="text" id="node_color_dark" 
 						value="<?php echo attribute_escape(node_color_dark()); ?>" size="6" />
-						<br />No need to specify the gray color which will be added to each ribbon
+						<br />No need to specify the gray color which will be added to each ribbon.
 					</td>
 					</tr>
 					
@@ -420,7 +420,7 @@ function upgrades_theme_page() {
 					<th scope="row"><label for="node_color_text"><?php _e('Node color link:');?></label></th>
 					<td>#<input name="node_color_text" type="text" id="node_color_text" 
 						value="<?php echo attribute_escape(node_color_text()); ?>" size="6" />
-						<br />This will be used for text links and should be contrasted enough from your other two tones (a 30% darker tone based on your dark ribbon colors usually works)
+						<br />This will be used for text links and should be contrasted enough from your other two tones (a 30% darker tone based on your dark ribbon colors usually works).
 					</td>
 					</tr>
                 
@@ -701,6 +701,162 @@ add_action('rdf_ns', 'feed_insert_namespace');
 add_action('rss2_ns', 'feed_insert_namespace');
 add_action('edit_form_advanced', 'upgrade_event_form');
 add_action('save_post', 'upgrade_save_post');
+
+
+// SimplePie U! Global Network Feed Widget
+// Add function to widgets_init to load the widget.
+add_action( 'widgets_init', 'example_load_widgets' );
+
+// Register our widget.
+function example_load_widgets() {
+	register_widget( 'networkfeed' );
+}
+
+// This class handles everything that needs to be handled with the widget:
+// the settings, form, display, and update. Nice!
+class networkfeed extends WP_Widget {
+
+	// Widget setup.
+	function networkfeed() {
+		/* Widget settings. */
+		$widget_ops = array( 'classname' => 'example', 'description' => __('This is the U! Global Network Feed. Place it in the primary or secondary aside.', 'example') );
+
+		/* Widget control settings. */
+		$control_ops = array( 'width' => 200, 'height' => 350, 'id_base' => 'networkfeed' );
+
+		/* Create the widget. */
+		$this->WP_Widget( 'networkfeed', __('Global Network Feed', 'example'), $widget_ops, $control_ops );
+	}
+
+	// How to display the widget on the screen.
+	
+	function widget( $args, $instance ) {
+		extract( $args );
+
+		/* Our variables from the widget settings. */
+		$title = apply_filters('widget_title', $instance['title'] );
+
+		/* Before widget (defined by themes). */
+		echo $before_widget;
+
+		/* Display the widget title if one was input (before and after defined by themes). */
+		if ( $title )
+			echo $before_title . $title . $after_title;
+
+        // Use the SimplePie Core through an array, pull multiple rss feeds together.
+        // For more information: http://simplepie.org/
+        
+        // Set up an hourly wp-cron job to cache the feed
+        // Currently this creates a job but does not help the feed load any faster.
+        // To activate, un-comment out below as well as the add_action above 'feedcontent'
+        // if ( !wp_next_scheduled('cache_networkfeed') ) {
+        // wp_schedule_event( time(), 'hourly', 'cache_networkfeed' ); // hourly, daily and or twicedaily
+        // }
+        
+        $urls = array(
+            'http://wowm.org/uz/',
+            'http://turbulence.org/upgrade_boston/',
+            'http://www.upgrade-berlin.net/',
+            'http://www.upgradesaopaulo.com.br/arte-novas-midias/',
+            'http://digiwaukee.net/upgrade/',
+            'http://www.upgrade.artapsu.com/',
+            'http://upgrade.eyebeam.org/',
+            'http://upgrade.okno.be/',
+            'http://www.incident.net/upgradedakar/',
+            'http://www.likenow.org/upgrade/',
+            'http://upgradechicago.org/');
+        $feed = new SimplePie();
+        $feed->set_feed_url($urls);
+        
+        // Set to pull only 1 item per feed
+        $feed->set_item_limit(1);
+          
+        // Set SimplePie Cache location to a specific file
+        //$feed->enable_cache(true);
+        $feed->set_cache_location(get_bloginfo('stylesheet_directory') . '/cache');
+        //$feed->set_cache_duration(999999999); 
+        //$feed->set_timeout(-1);
+          
+        // Initialize the feed so that we can use it.
+        $feed->init();
+        $feed->handle_content_type();
+         
+          echo "<ul>";
+          foreach ($feed->get_items(0,6) as $item):
+          
+              // Call the custom Upgrade tags within the feeds (we must also call the original feed from which the data is being pulled)
+              $nodename = $item->get_feed()->get_channel_tags('http://upgrade.eyebeam.org/upgrade', 'nodeName');
+              $name = $nodename[0]['data'];
+              
+              $nodecolordark = $item->get_feed()->get_channel_tags('http://upgrade.eyebeam.org/upgrade', 'nodeColorDark');
+              $dark = $nodecolordark[0]['data'];
+              
+              $nodecolorlight = $item->get_feed()->get_channel_tags('http://upgrade.eyebeam.org/upgrade', 'nodeColorLight');
+              $light = $nodecolorlight[0]['data'];
+              
+              $nodecolortext = $item->get_feed()->get_channel_tags('http://upgrade.eyebeam.org/upgrade', 'nodeColorText');
+              $text = $nodecolortext[0]['data'];
+              
+              //$nodemarker = $item->get_feed()->get_channel_tags('http://upgrade.eyebeam.org/upgrade', 'nodeMarker');
+              //$marker = $nodemarker[0]['data'];
+              
+        // Activate the cron job
+        //add_action('cache_networkfeed', 'widget');
+              
+              // Finally, echo the custom data and place it in the widget.
+              ?>
+              <div class="feedcontent">
+                  <div class="wrap" style="border-color:<?php echo $dark?>">
+                    <li style="border-color:<?php echo $text?>; padding: 0 6px">
+                      <span class="nodename" style="color:<?php echo $text ?>">U! <?php echo $name; ?>:</span>
+                      <?php
+                      // List the global feed post titles and link to the post permalink.
+                      ?>
+                      <span class="feed">
+                      <a href="<?php print $item->get_permalink(); ?>" style="color:<?php echo $text ?>">
+                      <?php print $item->get_title(); ?></a></span>
+                    </li>
+                  </div>
+              </div>
+              <?php
+          
+        endforeach;
+        echo "</ul>";
+          
+        $feed->__destruct(); // Do what PHP should be doing on it's own so that there are no memory leaks.
+        unset($feed);
+        unset($item);
+
+		/* After widget (defined by themes). */
+		echo $after_widget;
+	}
+
+	 // Update the widget settings.
+	function update( $new_instance, $old_instance ) {
+		$instance = $old_instance;
+
+		/* Strip tags for title and name to remove HTML (important for text inputs). */
+		$instance['title'] = strip_tags( $new_instance['title'] );
+
+		return $instance;
+	}
+
+    // Displays the widget settings controls on the widget panel.
+	function form( $instance ) {
+
+		/* Set up some default widget settings. */
+		$defaults = array( 'title' => __('Global Network Feed', 'example'));
+		$instance = wp_parse_args( (array) $instance, $defaults ); ?>
+
+		<!-- Widget Title: Text Input -->
+		<p>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e('Title:', 'hybrid'); ?></label>
+			<input id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $instance['title']; ?>" style="width:93%;" />
+		</p>
+	<?php
+	}
+}
+
 
 
 ?>
