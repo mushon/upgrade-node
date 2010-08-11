@@ -79,23 +79,52 @@ function add_wphead() {
  
 add_action ('wp_head', 'add_wphead');
 
+// Create a directory to hold cache files
+//mkdir(bloginfo('stylesheet_directory'), 0777);
+
 // Add gmap divs and calling the Geo Mash Up map.
 function gmap_div () {
-  ?><!--<body class="<?php //thematic_body_class() ?> <?php //lang_dir() ?>" onload="load()" onunload="GUnload()">-->
-  <div id="map">
-      <div id="gmap">
-      <?php echo GeoMashup::map('height=325&width=100%&add_overview_control=false&add_map_type_control=false');?>
-      </div>
-      <div id="stripe"></div>
-  </div>
-      <style>
-          #map {
-              background-image: url(<?=$header_bg_image?>);
-              background-repeat: repeat;
+  // If node settings checked to show map then load the geo mashup map
+  if(get_option('upgrades_use_gmap')) {
+      ?>
+        <div id="map">
+            <div id="gmap">
+            <?php echo GeoMashup::map('height=325&width=100%&add_overview_control=false&add_map_type_control=false');?>
+            </div>
+            <div id="stripe"></div>
+        </div>
+      <?php }
+  // If node settings unchecked, take the image from the latest event post and display in the header where the map should be
+  else { ?>
+      <div id="map">
+      <?php
+        $temp = $wp_query;
+        get_posts("category_name=events");
+        while (have_posts())
+        {
+          the_post();
+          $q = 'post_mime_type=image&post_parent='.$post->ID;
+          $images =& get_children($q);
+          if ( !empty($images)) {
+            foreach( $images as $attachment_id => $attachment ) {
+              $im = wp_get_attachment_image_src( $attachment_id, 'full' );
+              $header_bg_image = $im[0];
+            }
           }
+        }
+        $wp_query = $temp;
+      }
+      ?>
+      <div id="stripe"></div>
+      </div>
+          <style>
+              #map {
+                  background-image: url(<?=$header_bg_image?>);
+                  background-repeat: repeat;
+              }
           </style>
-    <?php
-}
+  <?php }
+  
 add_action (thematic_aboveheader, gmap_div);
 
 // Determine if the language requires RTL settings (using the qTranslate plugin):
@@ -773,7 +802,7 @@ class networkfeed extends WP_Widget {
           
         // Set SimplePie Cache location to a specific file
         //$feed->enable_cache(true);
-        $feed->set_cache_location(get_bloginfo('stylesheet_directory') . '/cache');
+        //$feed->set_cache_location(get_bloginfo('stylesheet_directory') . '/cache');
         //$feed->set_cache_duration(999999999); 
         //$feed->set_timeout(-1);
           

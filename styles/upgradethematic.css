@@ -130,6 +130,7 @@ Header
 	width: 950px;
 	margin-top: -30px;
 	padding: 0;
+	text-align: left;
 }
 
 /*
@@ -604,6 +605,7 @@ Sidebar
 
 .aside ul li {
 	list-style: none;
+	text-align: left;
 }
 
 .aside ul ul ul li {

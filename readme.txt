@@ -34,14 +34,22 @@ Don't activate this widget for a normal load time.
 
 !Important: In the upgrade_node theme folder there is a subfolder titled
 'geo-mashup-custom' This folder must be manually moved into wp-content>plugins folder
-within your WP directory.
+within your WP directory and then activated through the Plugin tab on the Dashboard.
+
+Simply enter in a Google API key in the Geo Mashup settings for the map to work.
+
+There are specific settings needed for this plugin to function as wanted. For the
+purpose of development the instructions are not included here but will be included
+in the full installation tutorial.
 
 3. 'WPML Multilingual CMS'
-This is the translation plugin that we are using to replace qtranslator.
+This is the translation plugin that we are using to replace qtranslator should
+you require a multilingual site.
 
 4. 'Event Calendar 3'
-This plugin allows you to put a calendar in the sidebars.
-
+This plugin allows you to put a calendar in the sidebars that displays events.
+For set up, create an Events category and go into the Event Calendar Options.
+Select 'Events' as the category to display in the calendar.
 
 
 
