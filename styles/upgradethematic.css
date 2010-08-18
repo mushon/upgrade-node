@@ -13,7 +13,7 @@ General
 
 body {
 	background: #f3f3f3 url(images/bg_tile.gif) repeat-y center;
-	color: #444;
+	color: #444444;
 	margin: 0;
 	padding: 0;
 	text-align: center;
@@ -24,7 +24,7 @@ a, a:hover, .meta a:hover, .edit-link a:hover  {
 }
 
 a:hover{
-	background-color: #fff;
+	background-color: #ffffff;
 	text-decoration: underline;
 }
 
@@ -32,13 +32,13 @@ a:hover{
 	color: #909090;
 }
 
-#wrapper{
+div#wrapper{
 	text-align: left;
 	margin: 0 auto;
 	width: 950px;
 }
 
-#main {
+div#main {
     overflow: visible;
     width: 940px;
     padding: 0;
@@ -261,6 +261,7 @@ Post
 	font-weight: bold;
 	font-size: 10px;
 	text-decoration: none;
+	line-height: 190%;
 }
 
 #container div.post span.edit-link a{
@@ -494,6 +495,7 @@ Comments
 
 #comments{
 	margin: -40px 40px;
+	text-align: left;
 }
 
 textarea#comment {
@@ -922,9 +924,9 @@ Footer
 -----------------------------*/
 
 #siteinfo{
-	width: 470px;
+	width: 450px;
 	text-align: center;
-	margin-left: 440px;
+	margin-left: 450px;
 	padding-top: 50px;
 }
 

@@ -56,20 +56,20 @@ function add_wphead() {
  $content .= "\" /><![endif]-->";
  $content .= "\n";
  
- // Include the original style.css again so it overides the blueprint code
- // Ideally we would've also found a way to remove the first reference to styles.css. If there's a better way, please share.
- $content .= "\t";
- $content .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"";
- $content .= get_bloginfo('stylesheet_url');
- $content .= "'\" media=\"style\" />";
- $content .= "\n";
- 
  // Include any other stylesheet you are using
  $content .= "\t";
  $content .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"";
  $content .= get_bloginfo('stylesheet_directory');
  $content .= '/styles/upgradethematic.css';
  $content .= "\" media=\"upgradethematic\" />";
+ $content .= "\n";
+ 
+ // Include the original style.css again so it overides the blueprint code
+ // Ideally we would've also found a way to remove the first reference to styles.css. If there's a better way, please share.
+ $content .= "\t";
+ $content .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"";
+ $content .= get_bloginfo('stylesheet_url');
+ $content .= "'\" media=\"style\" />";
  $content .= "\n";
 
  // Echo the whole thing
@@ -79,24 +79,27 @@ function add_wphead() {
  
 add_action ('wp_head', 'add_wphead');
 
-// Create a directory to hold cache files
-//mkdir(bloginfo('stylesheet_directory'), 0777);
+//Remove Blog Description
+ 
+function remove_thematic_blogdescription() {
+	remove_action('thematic_header','thematic_blogdescription',5);
+	}
+add_action('init','remove_thematic_blogdescription');
 
 // Add gmap divs and calling the Geo Mash Up map.
 function gmap_div () {
   // If node settings checked to show map then load the geo mashup map
-  if(get_option('upgrades_use_gmap')) {
       ?>
         <div id="map">
             <div id="gmap">
-            <?php echo GeoMashup::map('height=325&width=100%&add_overview_control=false&add_map_type_control=false');?>
+            <?php if(get_option('upgrades_use_gmap')) {
+            echo GeoMashup::map('height=325&width=100%&add_overview_control=false&add_map_type_control=false');?>
             </div>
             <div id="stripe"></div>
         </div>
       <?php }
   // If node settings unchecked, take the image from the latest event post and display in the header where the map should be
   else { ?>
-      <div id="map">
       <?php
         $temp = $wp_query;
         get_posts("category_name=events");
@@ -113,10 +116,11 @@ function gmap_div () {
           }
         }
         $wp_query = $temp;
-      }
       ?>
+      </div>
       <div id="stripe"></div>
       </div>
+      <?php } ?>
           <style>
               #map {
                   background-image: url(<?=$header_bg_image?>);
@@ -782,6 +786,20 @@ class networkfeed extends WP_Widget {
         // wp_schedule_event( time(), 'hourly', 'cache_networkfeed' ); // hourly, daily and or twicedaily
         // }
         
+        /*
+        $cache_path = get_bloginfo('wpurl') . './cache';
+        $cache_path_test = 'theupgrade.net/hack/wp-content/themes/upgrade_node/cache';
+        if(!is_dir($cache_path_test)) {
+          //if(!wp_mkdir_p($cache_path)) {
+            //$created = mkdir($cache_path, 0775, true);
+            //$created = wp_mkdir_p($cache_path);
+            if(!$created) {
+              echo 'Warning: Cache folder has not been created';
+            }
+          //}
+        }
+        */
+        
         $urls = array(
             'http://wowm.org/uz/',
             'http://turbulence.org/upgrade_boston/',
@@ -794,24 +812,23 @@ class networkfeed extends WP_Widget {
             'http://www.incident.net/upgradedakar/',
             'http://www.likenow.org/upgrade/',
             'http://upgradechicago.org/');
-        $feed = new SimplePie();
-        $feed->set_feed_url($urls);
         
-        // Set to pull only 1 item per feed
-        $feed->set_item_limit(1);
-          
+        $feed = new SimplePie(); // Call SimplePie to action
+        $feed->set_feed_url($urls); // Use all urls from above
+        $feed->set_item_limit(1); // Set to pull only 1 item per feed
+        
         // Set SimplePie Cache location to a specific file
-        //$feed->enable_cache(true);
-        //$feed->set_cache_location(get_bloginfo('stylesheet_directory') . '/cache');
+        $feed->enable_cache(true);
+        /*+++ $feed->set_cache_location($cache_path); */
         //$feed->set_cache_duration(999999999); 
         //$feed->set_timeout(-1);
-          
+        
         // Initialize the feed so that we can use it.
         $feed->init();
         $feed->handle_content_type();
          
           echo "<ul>";
-          foreach ($feed->get_items(0,6) as $item):
+          foreach ($feed->get_items(0,6) as $item): // Show only a limited number of items
           
               // Call the custom Upgrade tags within the feeds (we must also call the original feed from which the data is being pulled)
               $nodename = $item->get_feed()->get_channel_tags('http://upgrade.eyebeam.org/upgrade', 'nodeName');
