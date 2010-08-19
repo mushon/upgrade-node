@@ -693,16 +693,16 @@ function geolocate()
 
 // Add custom tags into the feeds.
 function feed_insert_node_info() {
+    $nodeMarker = bloginfo('stylesheet_directory')."/styles/images/icon.png";
     print "<upgrade:nodeName>".upgrades_node_name()."</upgrade:nodeName>\n";
     print "<upgrade:nodeUrl>".bloginfo('home')."</upgrade:nodeUrl>\n";
     print "<upgrade:nodeAddress>".upgrades_node_address()."</upgrade:nodeAddress>\n";
     print "<upgrade:nodeColorLight>#".node_color_light()."</upgrade:nodeColorLight>\n";
     print "<upgrade:nodeColorDark>#".node_color_dark()."</upgrade:nodeColorDark>\n";
     print "<upgrade:nodeColorText>#".node_color_text()."</upgrade:nodeColorText>\n";
+    print "<upgrade:nodeMarker>". $nodeMarker ."</upgrade:nodeMarker>\n";
     print "<upgrade:nodeThemeVersion>".$THEME_VERSION."</upgrade:nodeThemeVersion>\n";
-    //print "<upgrade:nodeMarker>".bloginfo('stylesheet_directory')."/styles/images/icon.png</upgrade:nodeMarker>\n";
 }
-
 
 // Add Upgrade namespace.
 function feed_insert_namespace() {
@@ -787,19 +787,16 @@ class networkfeed extends WP_Widget {
         // Use the SimplePie Core through an array, pull multiple rss feeds together.
         // For more information: http://simplepie.org/
         
-        /*
-        $cache_path = get_bloginfo('wpurl') . './cache';
-        $cache_path_test = 'theupgrade.net/hack/wp-content/themes/upgrade_node/cache';
-        if(!is_dir($cache_path_test)) {
-          //if(!wp_mkdir_p($cache_path)) {
-            //$created = mkdir($cache_path, 0775, true);
-            //$created = wp_mkdir_p($cache_path);
+        $cache_path = dirname(__FILE__) . '/cache';
+        if(!is_dir($cache_path)) {
+          if(!wp_mkdir_p($cache_path)) {
+            //$created = mkdir($cache_path, 0755, true);
+            $created = wp_mkdir_p($cache_path);
             if(!$created) {
               echo 'Warning: Cache folder has not been created';
             }
-          //}
+          }
         }
-        */
         
         $urls = array(
             'http://wowm.org/uz/',
@@ -820,7 +817,7 @@ class networkfeed extends WP_Widget {
         
         // Set SimplePie Cache location to a specific file
         $feed->enable_cache(true);
-        /*+++ $feed->set_cache_location($cache_path); */
+        $feed->set_cache_location($cache_path);
         //$feed->set_cache_duration(999999999); 
         //$feed->set_timeout(-1);
         
