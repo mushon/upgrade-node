@@ -19,6 +19,7 @@ body {
 	text-align: center;
 }
 
+/*
 a, a:hover, .meta a:hover, .edit-link a:hover  {
 	color: #69ab6c;
 }
@@ -31,6 +32,7 @@ a:hover{
 .aside a:active, .aside a:hover {
 	color: #909090;
 }
+*/
 
 div#wrapper{
 	text-align: left;
@@ -454,7 +456,7 @@ div#nav-below {
 	padding: 10px 0;
 }
 
-.navigation a{
+.navigation a, .navigation a:visited {
 	background: #bbb;
 	padding: 0 3px;
 	color: #fff;
@@ -466,7 +468,7 @@ div#nav-below {
 
 .navigation a:active, .navigation a:hover{
 	font-style: normal;
-	color: #fff;
+	color: #fff !important;
 }
 
 div.navigation div{
@@ -521,7 +523,7 @@ textarea#comment {
 #comments-list .comment-author {
 	margin: -40px 0 5px -60px;
 	padding: 0 0 0 40px;
-	background:#d4fca9 none repeat scroll 0 0;
+	/*background:#F3F3F3 none repeat scroll 0 0;*/
 	height: 24px;
 }
 
@@ -599,6 +601,10 @@ div.comment-body{
 /*-----------------------------
 Sidebar
 -----------------------------*/
+
+.aside ul ul li {
+	margin-left: -14px;
+}
 
 .aside td,
 .aside th {
@@ -698,60 +704,42 @@ div#wp-calendar table.nav #prev{
 Tag Cloud
 -----------------------------*/
 
-.widget_tag_cloud a {
+.widget_tag_cloud a, .widget_tag_cloud a:visited {
 	background:#FFFFFF url(images/tag-widget_bg.png) repeat scroll right bottom;
 	/*border-bottom:1px solid #C5C4C4;*/
-	color:#909090;
+	color:#959595;
 	float:left;
 	line-height:16px;
 	margin-bottom:3px;
 	padding: 5px 6px 6px 4px;
 }
 
+.widget_tag_cloud a:hover, .widget_tag_cloud a:active {
+	color: #666666;
+}
 
 /*-----------------------------
-Network feed
+Sidebar Widgets
 -----------------------------*/
 
-.widget_netfeed li div.net_wrap,
-.widget_netfeed li a{
-	display: block;
-	border-width: 0 2px;
-	border-style: solid;
-	font-size: 0.95em;
-	margin: 0 5px;
+.widget_recent_entries ul li {
+	margin: 6px 0;
 }
 
-#secondary .widget_netfeed li,
-#primary .widget_netfeed li{
-	border-bottom: 2px dotted #BEBEBE !important;
-	padding-bottom: 0.5em;
-	margin: 0 0 0.5em;
+.widgetcontainer ul li a, .widgetcontainer ul li a:visited {
+	color:#959595;
+	font-weight:normal;
 }
 
-.widget_netfeed li a{
-	padding: 0 10px;
-	background: #f6f6f6;
-	margin: 0;
+.widgetcontainer ul li a:hover, .widgetcontainer ul li a:active {
+	color:#666666;
 }
 
-.widget_netfeed li div.net_wrap:hover{
-	border-width: 0 4px;
-}
-
-.widget_netfeed div:hover a{
-	border-width: 0 5px;
-	padding: 0 5px;
-	background: #fff;
-}
-
-.widget_netfeed li a span{
+.widget_pages ul li a, .widget_pages ul li a:visited {
+	color: #ffffff;
 	font-weight: bold;
 }
 
-div.sidebar li.widget_netfeed ul{
-	margin: 0;
-}
 
 /*-----------------------------
 Upcoming Events
@@ -773,69 +761,6 @@ ul.ec3_events li.ec3_list ul li{
 #upgrade-network-feed ul {
 	width: 190px;
 	margin-left: -4px;
-}
-
-/*-----------------------------
-For RTL Languages
------------------------------*/
-
-body.dir-rtl{
-	direction: ltr;
-}
-
-body.dir-rtl div#content,
-body.dir-rtl div.sidebars{
-	direction: rtl;
-	text-align: right;
-}
-
-body.dir-rtl div#right-col h2.page-title{
-	float:right;
-	margin-right:40px;
-	margin-top:10px;
-	padding-left:5px;
-	padding-right:40px;
-}
-
-body.dir-rtl div#container div.post span.cat-links a{
-	float: right;
-	padding:1px 40px 1px 3px;
-}
-
-body.dir-rtl div#container div.post span.event-time,
-body.dir-rtl div#container div.post span.event-loc{
-	padding: 1px 40px 1px 5px;
-}
-
-body.dir-rtl div#container div.post div.tag-links{
-	float:right;
-	margin:10px 0 0 40px;
-	padding-right:40px;
-	background-position:390px -3px;
-}
-
-body.dir-rtl div#container div.post span.tag-container{
-	float: right;
-	background-position: left bottom;
-}
-
-body.dir-rtl div#container div.entry-content a.more-link {
-	float:left;
-	margin:10px 0px 0 -40px;
-	padding:0 3px 0 40px;
-}
-
-body.dir-rtl ul.qtrans_language_chooser{
-	float: left;
-}
-
-body.dir-rtl ul.qtrans_language_chooser li {
-	float: left;
-}
-
-body.dir-rtl li#pages li.page_item ul {
-	margin-right:16px;
-	margin-left: 0;
 }
 
 /*-----------------------------
@@ -907,17 +832,6 @@ Other
 .wrap:hover{
 	background-color: #FFFFFF;
 }
-
-/*
-.feedcontent li:hover {
-	border-width: 6px 0 0 0;
-}
-
-.wrap:hover{
-	border-top: 3px solid;
-	background-color: #FFFFFF;
-}
-*/
 
 /*-----------------------------
 Footer
@@ -1120,14 +1034,16 @@ div#lang_sel ul ul {
 /* another hack for IE5.5 */
 * html #lang_sel ul ul {
 	top:25px;
-	t\op:25px;}
+	t\op:25px;
+}
 
 /* style the table so that it takes no ppart in the layout - required for IE to work */
 div#lang_sel table {
 	position:absolute;
 	top:0;
 	left:0;
-	border-collapse:collapse;}
+	border-collapse:collapse;
+}
 
 /* style the second level links */
 div#lang_sel ul ul a, div#lang_sel ul ul a:link, div#lang_sel ul ul a:visited {
@@ -1143,25 +1059,34 @@ div#lang_sel ul ul a, div#lang_sel ul ul a:link, div#lang_sel ul ul a:visited {
 	border-radius: 0; /* future proofing */
 	-khtml-border-radius: 0; /* for old Konqueror browsers */
 	}
+	
 /* yet another hack for IE5.5 */
 * html #lang_sel ul ul a, * html #lang_sel ul ul a:visited {width:150px;w\idth:128px;}
 
 /* style the top level hover */
-div#lang_sel a:hover, div#lang_sel ul ul a:hover{color:#000; background:#ccc;}
-div#lang_sel :hover > a, div#lang_sel ul ul :hover > a {color:#000; background:#ccc;}
+div#lang_sel a:hover, div#lang_sel ul ul a:hover{
+	color:#000; background:#ccc;
+}
+
+div#lang_sel :hover > a, div#lang_sel ul ul :hover > a {
+	color:#000; background:#ccc;
+}
 
 div#lang_sel a.lang_sel_sel{
-    background:url(../images/nav-arrow-down.png) #fcfcfc right no-repeat;
-    color: #bfbfbf;
+	background:url(../images/nav-arrow-down.png) #fcfcfc right no-repeat;
+	color: #bfbfbf;
 }
+
 div#lang_sel a.lang_sel_sel:hover{
-    text-decoration: none;
-    /*color:#000;*/
+	text-decoration: none;
+	/*color:#000;*/
 }
 
 /* make the second level visible when hover on first level list OR link */
 div#lang_sel ul li:hover ul,
-div#lang_sel ul a:hover ul{visibility:visible; }
+div#lang_sel ul a:hover ul{
+	visibility:visible;
+}
 
 div#lang_sel ul li img {
 	position: relative;

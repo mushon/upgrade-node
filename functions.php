@@ -517,6 +517,10 @@ function nodeStyles(){
 	.edit-link a:hover  {
 		color: #" . attribute_escape(node_color_text()) . ";
 	}
+  
+  a:visited {
+    color: #" . attribute_escape(node_color_text()) . " ;
+  }
 	
 	div#container div.entry-content a.more-link:hover{
 		background-color: #" . attribute_escape(node_color_text()) . ";
@@ -847,7 +851,7 @@ class networkfeed extends WP_Widget {
               ?>
               <div class="feedcontent">
                   <div class="wrap" style="border-color:<?php echo $dark?>">
-                    <li style="border-color:<?php echo $text?>; padding: 0 6px">
+                    <li style="border-color:<?php echo $text?>; margin-left: 0; padding: 0 6px">
                       <span class="nodename" style="color:<?php echo $text ?>">U! <?php echo $name; ?>:</span>
                       <?php
                       // List the global feed post titles and link to the post permalink.
