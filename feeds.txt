@@ -19,4 +19,5 @@
 'http://www.upgradevancouver.org/',
 'http://www.mission-base.com/upgradeMunich/blog/',
 'http://no-org.net/theupgrade/wordpress/',
-'http://banhomaria.net/upgrade/'
+'http://banhomaria.net/upgrade/',
+'http://upgradesf.org/'

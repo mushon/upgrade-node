@@ -411,6 +411,7 @@ function upgrades_new_url() {
 	return apply_filters('upgrades_new_url', get_option('upgrades_new_url'));
 }
 */
+
 // Dashboard Node Settings. Additional Node admin page for the Upgrade Node Theme template
 add_action('admin_menu', 'upgrades_add_theme_page');
 
@@ -537,7 +538,7 @@ function upgrades_theme_page() {
 					<tr valign="top">
 					<th scope="row"><label for="upgrades_node_name"><?php _e('Upgrade node codename:');?></label></th>
 					<td><input name="upgrades_node_name" type="text" id="upgrades_node_name" 
-						value="<?php esc_attr(upgrades_node_name()); ?>" size="64" />
+						value="<?php echo esc_attr(upgrades_node_name()); ?>" size="64" />
 					<br /><span>This is used for identifying the different feeds (ie. for the Global Network Feed Widget). 
 					For example: &#214;stersund-Stockholm could be simply 'stockholm' for these purposes </span>
 					</td>
@@ -565,14 +566,14 @@ function upgrades_theme_page() {
 					<tr valign="top">
 					<th scope="row"><label for="node_color_light"><?php _e('Node color light:');?></label></th>
 					<td>#<input name="node_color_light" type="text" id="node_color_light" 
-						value="<?php esc_attr(node_color_light()); ?>" size="6" />
+						value="<?php echo esc_attr(node_color_light()); ?>" size="6" />
 					</td>
 					</tr>
 					
 					<tr valign="top">
 					<th scope="row"><label for="node_color_dark"><?php _e('Node color dark:');?></label></th>
 					<td>#<input name="node_color_dark" type="text" id="node_color_dark" 
-						value="<?php esc_attr(node_color_dark()); ?>" size="6" />
+						value="<?php echo esc_attr(node_color_dark()); ?>" size="6" />
 						<br />No need to specify the gray color which will be added to each ribbon.
 					</td>
 					</tr>
@@ -580,7 +581,7 @@ function upgrades_theme_page() {
 					<tr valign="top">
 					<th scope="row"><label for="node_color_text"><?php _e('Node color link:');?></label></th>
 					<td>#<input name="node_color_text" type="text" id="node_color_text" 
-						value="<?php esc_attr(node_color_text()); ?>" size="6" />
+						value="<?php echo esc_attr(node_color_text()); ?>" size="6" />
 						<br />This will be used for text links and should be contrasted enough from your other two tones (a 30% darker tone based on your dark ribbon colors usually works).
 					</td>
 					</tr>
@@ -595,7 +596,7 @@ function upgrades_theme_page() {
 					<tr valign="top">
 					<th scope="row"><label for="upgrades_node_address"><?php _e('Address:');?></label></th>
 					<td><input name="upgrades_node_address" type="text" id="upgrades_node_address" 
-						value="<?php esc_attr(upgrades_node_address()); ?>" size="64" />
+						value="<?php echo esc_attr(upgrades_node_address()); ?>" size="64" />
 						<p>Enter your address and your latitude and longitude will be calculated automatically.</p>
 					</td>
 					</tr>
@@ -603,13 +604,13 @@ function upgrades_theme_page() {
 					<tr valign="top">
 					<th scope="row"><label for="Geo_location"><?php _e('Geo location:');?></label></th>
 					<td>Latitude:<input name="upgrades_node_lat" type="text" id="upgrades_node_lat" 
-						value="<?php esc_attr(upgrades_node_lat()); ?>" size="32" />
+						value="<?php echo esc_attr(upgrades_node_lat()); ?>" size="32" />
 					
 					Longitude:<input name="upgrades_node_lon" type="text" id="upgrades_node_lon" 
-						value="<?php esc_attr(upgrades_node_lon()); ?>" size="32" />
+						value="<?php echo esc_attr(upgrades_node_lon()); ?>" size="32" />
                     
 					Zoom:<input name="upgrades_node_zoom" type="text" id="upgrades_node_zoom" 
-						value="<?php esc_attr(upgrades_node_zoom()); ?>" size="32" />
+						value="<?php echo esc_attr(upgrades_node_zoom()); ?>" size="32" />
                     
 					<br />
 					   Use Google Maps to find the lat/lon of your location. 
@@ -943,7 +944,8 @@ class networkfeed extends WP_Widget {
             'http://www.upgradevancouver.org/',
             'http://www.mission-base.com/upgradeMunich/blog/',
             'http://no-org.net/theupgrade/wordpress/',
-            'http://banhomaria.net/upgrade/');
+            'http://banhomaria.net/upgrade/',
+            'http://upgradesf.org/');
         
         $feed = new SimplePie(); // Call SimplePie to action
         $feed->set_feed_url($urls); // Use all urls from above
