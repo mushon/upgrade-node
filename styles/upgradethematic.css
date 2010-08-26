@@ -168,15 +168,18 @@ Header
 	margin-right:-5px;
 }
 
+label {
+	font-weight:normal;
+}
  
-#searchform {
+#main > #searchform {
 	float: right;
 	margin-top: -326px;
 	margin-right: 40px;
 	z-index: 100;
 }
 
-#searchform input#s{
+#main > #searchform input#s{
 	width: 177px;
 	height: 15px;
 	padding: 3px 3px 3px 10px;
@@ -184,6 +187,20 @@ Header
 	border: none;
 	margin: 0;
 	float: left;
+}
+
+#searchform input#s{
+	width: 141px;
+	background: url(images/search_box.png);
+	height: 15px;
+	border: none;
+	padding: 3px 3px 3px 10px;
+}
+
+.aside #searchsubmit {
+	display: inherit;
+	float:left;
+	margin: -27px 0 0 153px;
 }
 
 #searchsubmit{

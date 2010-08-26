@@ -28,6 +28,18 @@ function childtheme_sidebars_init() {
 // When WP initiates, add the above settings
 add_action( 'init', 'childtheme_sidebars_init',20 );
 
+// Remove WP Default Search Widget
+function my_unregister_widgets() {
+	unregister_widget( 'WP_Widget_Calendar' );
+  //unregister_widget( 'WP_Widget_Meta' );
+  //unregister_widget( 'WP_Widget_RSS' );
+	//unregister_widget( 'WP_Widget_Search' );
+
+}
+
+add_action( 'widgets_init', 'my_unregister_widgets' );
+
+
 // Add Blueprint CSS and WP Geo into wp_head
 function add_wphead() {
 
@@ -286,7 +298,119 @@ function upgrade_postfooter(){
 
 add_filter(thematic_postfooter, upgrade_postfooter);
 
+/*
+// Dashboard Node List Page. Menu to add new Node to Global Network
+add_action('admin_menu', 'upgrades_add_node_page');
 
+function upgrades_add_node_page() {
+	if ( $_GET['page'] == basename(__FILE__) ) {
+    
+      if ( 'save' == $_REQUEST['action'] ) {
+        if ( isset($_REQUEST['njform']) ) {
+          
+            if ( '' == $_REQUEST['upgrades_new_url'] )
+              delete_option('upgrades_new_url');
+            else {
+              $upgrades_new_url = trim ( $_REQUEST['upgrades_new_url'] );
+              update_option('upgrades_new_url', $upgrades_new_url);
+            }
+        }
+              
+        //print_r($_REQUEST);
+        wp_redirect("themes.php?page=functions.php&saved=true");
+        die;
+      } 
+       
+      add_action('admin_head', 'upgrades_node_list_meta');
+	}
+	add_options_page(__('Global Node List'), __('Global Node List'), 'edit_themes', basename(__FILE__), 'upgrades_list_page');
+}
+
+// Head of the update global node list page
+function upgrades_node_list_meta() {
+    ?>
+    <script type='text/javascript'>
+        // <![CDATA[
+          function lalala() {
+          }
+        // ]]>
+    </script>
+    <style type='text/css'>
+        #headwrap {
+          text-align: center;
+        }
+    </style>
+    <?php
+}
+
+// Body of the update global node list page
+function upgrades_list_page() {
+	if ( $_REQUEST['saved'] ) echo '<div id="message" class="updated fade"><p><strong>'.__('Options saved.').'</strong></p></div>';
+?>
+<div class='wrap'>
+	<h2><?php _e('Update the Global Node List'); ?></h2>
+	
+	<div id="nodenonJsForm">
+      <form method="post" action="options.php">
+        <?php wp_nonce_field('update-options'); ?>
+        
+        <h3>Global Upgrade Node List</h3>
+        
+        <table class="form-table">
+				
+					<tr valign="top">
+					<th scope="row"><label for="upgrades_new_url"><?php _e('Upgrade List:');?></label></th>
+					<td>
+            <textarea name="upgrades_new_url" type="text" id="upgrades_new_url" rows="25" cols="61">
+            <?php echo current_node_urls() ?>
+            </textarea>
+					<br/><br /><span>Adding a url to this list will update the Global Upgrade Node Network.
+          A new site <strong>must</strong> be added <br/>by an already existing node in this
+          list and must follow the same notation 'http://websiteurl.com'.
+          <br/><strong>Important: The last website must not have an ending comma</strong></span>
+					</td>
+					</tr>
+					
+				</table>
+        
+        <input type="hidden" name="action" value="update" />
+        <input type="hidden" name="page_options" value="true" />
+        
+        <p class="submit">
+        <input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
+        </p>
+        
+			</form>
+		</div>
+</div>
+<?php }
+
+    function current_node_urls() {
+        // Get a file into an array.
+        $site = dirname(__FILE__) . '/feeds.txt';
+        $lines = file($site);
+        $fh = fopen($site, 'w'); // open feeds.txt so we can write to it (a to append, w to overwrite)
+        $new = esc_attr(upgrades_new_url()); // what we are writing
+        //explode(',',$new);
+        fwrite($fh, $new); // command to write
+        fclose($fh);
+        
+        // Get contents of .txt file
+        foreach($lines as $line)
+        {
+            $nodes .= esc_attr($line);
+        }
+        
+        return $nodes;
+    }
+
+function upgrades_new_url() {
+	if(!get_option('upgrades_new_url')) {
+		add_option('upgrades_new_url', current_node_urls());
+	}
+	return apply_filters('upgrades_new_url', get_option('upgrades_new_url'));
+}
+*/
 // Dashboard Node Settings. Additional Node admin page for the Upgrade Node Theme template
 add_action('admin_menu', 'upgrades_add_theme_page');
 
@@ -413,7 +537,7 @@ function upgrades_theme_page() {
 					<tr valign="top">
 					<th scope="row"><label for="upgrades_node_name"><?php _e('Upgrade node codename:');?></label></th>
 					<td><input name="upgrades_node_name" type="text" id="upgrades_node_name" 
-						value="<?php echo attribute_escape(upgrades_node_name()); ?>" size="64" />
+						value="<?php esc_attr(upgrades_node_name()); ?>" size="64" />
 					<br /><span>This is used for identifying the different feeds (ie. for the Global Network Feed Widget). 
 					For example: &#214;stersund-Stockholm could be simply 'stockholm' for these purposes </span>
 					</td>
@@ -441,14 +565,14 @@ function upgrades_theme_page() {
 					<tr valign="top">
 					<th scope="row"><label for="node_color_light"><?php _e('Node color light:');?></label></th>
 					<td>#<input name="node_color_light" type="text" id="node_color_light" 
-						value="<?php echo attribute_escape(node_color_light()); ?>" size="6" />
+						value="<?php esc_attr(node_color_light()); ?>" size="6" />
 					</td>
 					</tr>
 					
 					<tr valign="top">
 					<th scope="row"><label for="node_color_dark"><?php _e('Node color dark:');?></label></th>
 					<td>#<input name="node_color_dark" type="text" id="node_color_dark" 
-						value="<?php echo attribute_escape(node_color_dark()); ?>" size="6" />
+						value="<?php esc_attr(node_color_dark()); ?>" size="6" />
 						<br />No need to specify the gray color which will be added to each ribbon.
 					</td>
 					</tr>
@@ -456,7 +580,7 @@ function upgrades_theme_page() {
 					<tr valign="top">
 					<th scope="row"><label for="node_color_text"><?php _e('Node color link:');?></label></th>
 					<td>#<input name="node_color_text" type="text" id="node_color_text" 
-						value="<?php echo attribute_escape(node_color_text()); ?>" size="6" />
+						value="<?php esc_attr(node_color_text()); ?>" size="6" />
 						<br />This will be used for text links and should be contrasted enough from your other two tones (a 30% darker tone based on your dark ribbon colors usually works).
 					</td>
 					</tr>
@@ -471,7 +595,7 @@ function upgrades_theme_page() {
 					<tr valign="top">
 					<th scope="row"><label for="upgrades_node_address"><?php _e('Address:');?></label></th>
 					<td><input name="upgrades_node_address" type="text" id="upgrades_node_address" 
-						value="<?php echo attribute_escape(upgrades_node_address()); ?>" size="64" />
+						value="<?php esc_attr(upgrades_node_address()); ?>" size="64" />
 						<p>Enter your address and your latitude and longitude will be calculated automatically.</p>
 					</td>
 					</tr>
@@ -479,13 +603,13 @@ function upgrades_theme_page() {
 					<tr valign="top">
 					<th scope="row"><label for="Geo_location"><?php _e('Geo location:');?></label></th>
 					<td>Latitude:<input name="upgrades_node_lat" type="text" id="upgrades_node_lat" 
-						value="<?php echo attribute_escape(upgrades_node_lat()); ?>" size="32" />
+						value="<?php esc_attr(upgrades_node_lat()); ?>" size="32" />
 					
 					Longitude:<input name="upgrades_node_lon" type="text" id="upgrades_node_lon" 
-						value="<?php echo attribute_escape(upgrades_node_lon()); ?>" size="32" />
+						value="<?php esc_attr(upgrades_node_lon()); ?>" size="32" />
                     
 					Zoom:<input name="upgrades_node_zoom" type="text" id="upgrades_node_zoom" 
-						value="<?php echo attribute_escape(upgrades_node_zoom()); ?>" size="32" />
+						value="<?php esc_attr(upgrades_node_zoom()); ?>" size="32" />
                     
 					<br />
 					   Use Google Maps to find the lat/lon of your location. 
@@ -515,74 +639,74 @@ function nodeStyles(){
 	a:hover,
 	.meta a:hover,
 	.edit-link a:hover  {
-		color: #" . attribute_escape(node_color_text()) . ";
+		color: #" . esc_attr(node_color_text()) . ";
 	}
   
   a:visited {
-    color: #" . attribute_escape(node_color_text()) . " ;
+    color: #" . esc_attr(node_color_text()) . " ;
   }
 	
 	div#container div.entry-content a.more-link:hover{
-		background-color: #" . attribute_escape(node_color_text()) . ";
+		background-color: #" . esc_attr(node_color_text()) . ";
 	}
 	
 	div#stripe{
-		border-top-color: #" . attribute_escape(node_color_light()) . ";
-		background-color: #" . attribute_escape(node_color_dark()) . " ;
+		border-top-color: #" . esc_attr(node_color_light()) . ";
+		background-color: #" . esc_attr(node_color_dark()) . " ;
 	}
 	
 	div#right-col h2.page-title{
-		background:#" . attribute_escape(node_color_light()) . ";
-		color: #" . attribute_escape(node_color_text()) . ";
+		background:#" . esc_attr(node_color_light()) . ";
+		color: #" . esc_attr(node_color_text()) . ";
 	}
 	
 	div#right-col h2.page-title a{
-		color: #" . attribute_escape(node_color_text()) . ";
+		color: #" . esc_attr(node_color_text()) . ";
 	}
 	
 	div#container div.post span.event-loc{
-		background: #" . attribute_escape(node_color_light()) . ";
-		color: #" . attribute_escape(node_color_text()) . ";
+		background: #" . esc_attr(node_color_light()) . ";
+		color: #" . esc_attr(node_color_text()) . ";
 	}
 	
 	div#container div.post span.event-time{
-		background: #" . attribute_escape(node_color_dark()) . " ;
-		color: #" . attribute_escape(node_color_text()) . ";
+		background: #" . esc_attr(node_color_dark()) . " ;
+		color: #" . esc_attr(node_color_text()) . ";
 	}
 	
 	div#container div.entry-content a.more-link{
-		background: #" . attribute_escape(node_color_dark()) . " ;
-		color: #" . attribute_escape(node_color_text()) . ";
+		background: #" . esc_attr(node_color_dark()) . " ;
+		color: #" . esc_attr(node_color_text()) . ";
 	}
 	
 	div.entry-meta{
-		background: #" . attribute_escape(node_color_dark()) . " ;
-		color: #" . attribute_escape(node_color_text()) . ";
+		background: #" . esc_attr(node_color_dark()) . " ;
+		color: #" . esc_attr(node_color_text()) . ";
 	}
 	
 	div.entry-meta span.comments-link a{
-		color: #" . attribute_escape(node_color_dark()) . " ;
+		color: #" . esc_attr(node_color_dark()) . " ;
 	}
 	
 	div.entry-meta a.author-img:hover img {
-		border: 2px solid #" . attribute_escape(node_color_dark()) . " ;
+		border: 2px solid #" . esc_attr(node_color_dark()) . " ;
 	}
 	
 	div.entry-meta a.author-img img{
-		border-color: 2px solid #" . attribute_escape(node_color_text()) . ";
+		border-color: 2px solid #" . esc_attr(node_color_text()) . ";
 	}
 	
 	.comment-author{
-		background: #" . attribute_escape(node_color_light()) . ";
+		background: #" . esc_attr(node_color_light()) . ";
 	}
 	
 	div#wp-calendar table td.ec3_eventday{
-		border-color: #" . attribute_escape(node_color_light()) . ";
+		border-color: #" . esc_attr(node_color_light()) . ";
 	}
 	
 	div#wp-calendar table td.ec3_eventday a{
-		color: #" . attribute_escape(node_color_text()) . "!important;
-		border-color: #" . attribute_escape(node_color_dark()) . "; 
+		color: #" . esc_attr(node_color_text()) . "!important;
+		border-color: #" . esc_attr(node_color_dark()) . "; 
 	}
 	
 	";
@@ -690,10 +814,9 @@ function geolocate()
 	}
 }
 
-
 // Add custom tags into the feeds.
 function feed_insert_node_info() {
-    $nodeMarker = bloginfo('stylesheet_directory')."/styles/images/icon.png";
+    //$nodeMarker = bloginfo('stylesheet_directory')."/styles/images/icon.png";
     print "<upgrade:nodeName>".upgrades_node_name()."</upgrade:nodeName>\n";
     print "<upgrade:nodeUrl>".bloginfo('home')."</upgrade:nodeUrl>\n";
     print "<upgrade:nodeAddress>".upgrades_node_address()."</upgrade:nodeAddress>\n";
@@ -809,7 +932,18 @@ class networkfeed extends WP_Widget {
             'http://upgrade.okno.be/',
             'http://www.incident.net/upgradedakar/',
             'http://www.likenow.org/upgrade/',
-            'http://upgradechicago.org/');
+            'http://upgradechicago.org/',
+            'http://www.incident.net/upgradedakar/en/',
+            'http://www.incident.net/upgradeparis/en/',
+            'http://nomad-tv.net/upgradeistanbul/',
+            'http://upgrade.lisboa20.pt/',
+            'http://upgrade.mediascot.org/',
+            'http://upgrade.dreamaddictive.com/',
+            'http://mad.dse.nl/upgrade/',
+            'http://www.upgradevancouver.org/',
+            'http://www.mission-base.com/upgradeMunich/blog/',
+            'http://no-org.net/theupgrade/wordpress/',
+            'http://banhomaria.net/upgrade/');
         
         $feed = new SimplePie(); // Call SimplePie to action
         $feed->set_feed_url($urls); // Use all urls from above
